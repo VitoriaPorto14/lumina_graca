@@ -347,49 +347,175 @@ Gestão de Mensagens: Pode ver mensagens enviadas pelos usuários
 
 A estrutura abaixo apresenta a organização das pastas e arquivos da Lumina & Graça, explicando de forma simples a função de cada item na aplicação:
 ```text
-lumina_graca/
-├── conta.php                     # Mostra as informações da conta do usuário
-├── estoque.php                   # Mostra o estoque da loja
-├── index.php                     # Página inicial do sistema
-├── login.php                     # Tela para login
-├── logout.php                    # Código PHP para o usuário sair
-├── mensagens.php                 # Aba para visualizar mensagens enviadas por clientes ao admin
-├── pedidos.php                   # Aba para o admin acompanhar as vendas da loja em tempo real
+lumina_grca/
+├── conta.php                # Página do perfil e informações da conta do usuário
+├── estoque.php              # Página de controle e visualização do estoque
+├── index.php                # Página inicial do sistema
+├── login.php                # Página para entrada/autenticação no sistema
+├── logout.php               # Encerra a sessão da conta do usuário
+├── mensagens.php            # Central de mensagens e contatos recebidos
+├── pedidos.php              # Visualização e gestão dos pedidos
+├── README.md                # Documentação e instruções sobre o projeto
 │
-├── atendimento/                  # Módulo de suporte e contato do cliente
-│   ├── contato.php               # Formulário Fale Conosco
-│   ├── politica_privacidade.php  # Política de Privacidade da página
-│   └── sobre_nos.php             # Sobre a Lumina & Graça
+├── atendimento/             # Páginas relacionadas ao suporte e informações institucionais
+│   ├── contato.php          # Formulário de contato para os clientes
+│   ├── politica_privacidade.php # Página com termos e políticas de privacidade
+│   └── sobre_nos.php        # Informações sobre a empresa/projeto
 │
-├── css/                          # Arquivo de visual e cores
-│   └── style.css                 # Estilos da tela
+css/                         # Arquivos de estilização e visual do site
+│   ├── imagens/             # Imagens e recursos visuais utilizados nos estilos do site
+│   │
+│   └── style.css            # Estilização do sistema
 │
-├── database/                   # Conexão com o banco
-│   └── connect.php             # Script que conecta o PHP ao PostgreSQL
+├── database/                # Arquivos para integração com o banco de dados
+│   └── connect.php          # Script responsável por conectar o PHP ao banco de dados
 │
-├── images/                     # Imagens fixas do site (logos, ícones e fundos)
+├── gerenciar_produtos/      # Operações administrativas do catálogo de produtos
+│   ├── adicionar_p.php      # Formulário/script para o admin cadastrar novos produtos
+│   ├── editar_p.php         # Formulário/script para o admin alterar informações dos produtos existentes
+│   └── excluir_p.php        # Formulário/script para o admin remover produtos do sistema
 │
-├── includes/                   # Partes repetidas das telas (cabeçalho, rodapé e funções)
-│   ├── header.php              # Cabeçalho / Menu do topo
-│   ├── footer.php              # Rodapé
-│   └── functions.php           # Funções gerais do sistema utilizadas nas páginas
+├── gerenciar_usuario/       # Operações administrativas de usuários
+│   ├── adicionar_u.php      # Formulário/script para o usuário se cadastrar
+│   ├── atualizar_u.php      # Formulário/script para o usuário editar dados da conta
+│   └── excluir_u.php        # Formulário para o usuário apagar a sua própria conta com base no ID
 │
-├── login/                      # Arquivos sobre o usuário no sistema
-│   ├── cadastro.php            # Criar conta
-│   ├── login.php               # Entrar no site
-│   ├── logout.php              # Sair da conta
-│   ├── atualizar_perfil.php    # Atualizar informações do perfil
-│   └── verifica_user.php       # Arquivo que garante que apenas usuários logados tenham acesso às páginas principais
+├── includes/                # Partes reutilizáveis das páginas e funções auxiliares
+│   ├── footer.php           # Rodapé padrão do site
+│   ├── functions.php        # Funções gerais PHP utilizadas no sistema
+│   └── header.php           # Cabeçalho e menu de navegação superior
 │
-├── pages/                      # As páginas principais do sistema
-│   ├── inicio.php              # Painel principal do usuário
-│   ├── viagens.php             # Lista de viagens salvas
-│   ├── adicionar.php           # Formulário para cadastrar viagem
-│   ├── atualizar.php           # Formulário para editar viagem
-│   ├── detalhes_viagem.php     # Tela que mostra uma viagem completa
-│   ├── pesquisar.php           # Campo de busca de viagens
-│   ├── excluir.php             # Apaga a viagem
-│   └── perfil.php              # Exibe as informações do usuário
+├── produtos/                # Páginas da loja focadas em navegação e compra
+│   ├── checkout.php         # Tela de finalização de compra/pagamento
+│   └── m_produtos.php       # Exibição/vitrine dos produtos disponíveis
 │
-└── uploads/                    # Pasta onde ficam salvas as fotos que os usuários enviam
+└── uploads/                 # Diretório onde são salvas as imagens enviadas pelos usuários (imagens dos produtos)
 ```
+
+
+## 9 Banco de Dados
+
+### 9.1 Dicionário de Dados
+#### Tabela 1: `usuarios`
+
+| Nome do Campo | Nome do Campo no Banco | Tipo de Dado | Descrição | Chave | Obrigatoriedade | Tipo da Variável | Máscara do Campo | Tabela / Campo de Origem |
+| :--- | :--- | :--- | :--- | :---: | :---: | :--- | :---: | :---: |
+| **ID do Usuário** | id | INT | Identificador único do usuário | PK | NOT NULL | Número inteiro | -- | -- |
+| **Nome Completo** | nome | VARCHAR(100) | Nome completo informado pelo usuário no cadastro | -- | NOT NULL | Caractere | -- | -- |
+| **E-mail de Acesso** | email | VARCHAR(150) | Endereço de e-mail único do usuário para login | -- | NOT NULL | Caractere | -- | -- |
+| **Senha Criptografada** | senha | VARCHAR(255) | Hash da senha do usuário | -- | NOT NULL | Caractere | -- | -- |
+| **Tipo de Perfil** | tipo | VARCHAR(20) | Nível de acesso no sistema (cliente ou admin) | -- | NOT NULL | Caractere | -- | -- |
+
+---
+
+#### Tabela 2: `produtos`
+
+| Nome do Campo | Nome do Campo no Banco | Tipo de Dado | Descrição | Chave | Obrigatoriedade | Tipo da Variável | Máscara do Campo | Tabela / Campo de Origem |
+| :--- | :--- | :--- | :--- | :---: | :---: | :--- | :---: | :---: |
+| **ID do Produto** | id | INT | Identificador único do produto | PK | NOT NULL | Número inteiro | -- | -- |
+| **Nome do Produto** | nome | VARCHAR(100) | Nome comercial da peça ou produto | -- | NOT NULL | Caractere | -- | -- |
+| **Descrição do Produto** | descricao | TEXT | Detalhes, tecido e especificações do produto | -- | NULL | Texto longo | -- | -- |
+| **Preço do Produto** | preco | NUMERIC(10,2) | Valor unitário de venda do produto | -- | NOT NULL | Decimal | R$ 0,00 | -- |
+| **Estoque** | estoque | INT | Quantidade disponível em estoque | -- | NOT NULL | Número inteiro | -- | -- |
+| **URL da Imagem** | imagem_url | VARCHAR(255) | Nome do arquivo de imagem salvo no servidor | -- | NULL | Caractere | -- | -- |
+
+---
+
+#### Tabela 3: `pedidos`
+
+| Nome do Campo | Nome do Campo no Banco | Tipo de Dado | Descrição | Chave | Obrigatoriedade | Tipo da Variável | Máscara do Campo | Tabela / Campo de Origem |
+| :--- | :--- | :--- | :--- | :---: | :---: | :--- | :---: | :---: |
+| **ID do Pedido** | id | INT | Identificador único do pedido | PK | NOT NULL | Número inteiro | -- | -- |
+| **ID do Usuário** | usuario_id | INT | Identificador do cliente que realizou a compra | FK | NOT NULL | Número inteiro | -- | usuarios.id |
+| **Data do Pedido** | data_pedido | TIMESTAMP | Data e hora exata em que o pedido foi efetuado | -- | NOT NULL | Data e Hora | DD/MM/AAAA HH:MM:SS | -- |
+| **Total do Pedido** | total | NUMERIC(10,2) | Valor total acumulado da compra | -- | NOT NULL | Decimal | R$ 0,00 | -- |
+
+---
+
+#### Tabela 4: `item_pedido`
+
+| Nome do Campo | Nome do Campo no Banco | Tipo de Dado | Descrição | Chave | Obrigatoriedade | Tipo da Variável | Máscara do Campo | Tabela / Campo de Origem |
+| :--- | :--- | :--- | :--- | :---: | :---: | :--- | :---: | :---: |
+| **ID do Item** | id | INT | Identificador único do item do pedido | PK | NOT NULL | Número inteiro | -- | -- |
+| **ID do Pedido** | pedido_id | INT | Identificador do pedido ao qual o item pertence | FK | NOT NULL | Número inteiro | -- | pedidos.id |
+| **ID do Produto** | produto_id | INT | Identificador do produto adquirido | FK | NOT NULL | Número inteiro | -- | produtos.id |
+| **Quantidade** | quantidade | INT | Quantidade comprada do produto | -- | NOT NULL | Número inteiro | -- | -- |
+| **Preço Unitário** | preco_unitario | NUMERIC(10,2) | Preço unitário do produto no momento da compra | -- | NOT NULL | Decimal | R$ 0,00 | produtos.preco |
+
+---
+
+#### Tabela 5: `mensagens`
+
+| Nome do Campo | Nome do Campo no Banco | Tipo de Dado | Descrição | Chave | Obrigatoriedade | Tipo da Variável | Máscara do Campo | Tabela / Campo de Origem |
+| :--- | :--- | :--- | :--- | :---: | :---: | :--- | :---: | :---: |
+| **ID da Mensagem** | id | INT | Identificador único da mensagem enviada | PK | NOT NULL | Número inteiro | -- | -- |
+| **Nome do Remetente** | nome | VARCHAR(100) | Nome completo de quem enviou o contato | -- | NOT NULL | Caractere | -- | -- |
+| **E-mail do Remetente** | email | VARCHAR(150) | Endereço de e-mail de contato do remetente | -- | NOT NULL | Caractere | -- | -- |
+| **Assunto** | assunto | VARCHAR(150) | Assunto ou título da mensagem | -- | NULL | Caractere | -- | -- |
+| **Mensagem** | mensagem | TEXT | Conteúdo de texto enviado pelo formulário Fale Conosco | -- | NOT NULL | Texto longo | -- | -- |
+| **Data do Envio** | data_envio | TIMESTAMP | Data e hora em que a mensagem foi enviada | -- | NOT NULL | Data e Hora | DD/MM/AAAA HH:MM:SS | -- |
+
+
+### 9.2 DER
+
+```mermaid
+erDiagram
+    USUARIOS ||--o{ PEDIDOS : "realiza"
+    PEDIDOS ||--|{ ITEM_PEDIDO : "possui"
+    PRODUTOS ||--o{ ITEM_PEDIDO : "contem"
+
+    USUARIOS {
+        int id PK "UNIQUE AUTOINCREMENT"
+        varchar(100) nome "NOT NULL"
+        varchar(150) email "NOT NULL"
+        varchar(255) senha "NOT NULL"
+        varchar(20) tipo "NOT NULL"
+    }
+
+    PRODUTOS {
+        int id PK "UNIQUE AUTOINCREMENT"
+        varchar(100) nome "NOT NULL"
+        text descricao "NULL"
+        numeric preco "NOT NULL"
+        int estoque "NOT NULL"
+        varchar(255) imagem_url "NULL"
+    }
+
+    PEDIDOS {
+        int id PK "UNIQUE AUTOINCREMENT"
+        int usuario_id FK "NOT NULL"
+        timestamp data_pedido "NOT NULL"
+        numeric total "NOT NULL"
+    }
+
+    ITEM_PEDIDO {
+        int id PK "UNIQUE AUTOINCREMENT"
+        int pedido_id FK "NOT NULL"
+        int produto_id FK "NOT NULL"
+        int quantidade "NOT NULL"
+        numeric preco_unitario "NOT NULL"
+    }
+
+    MENSAGENS {
+        int id PK "UNIQUE AUTOINCREMENT"
+        varchar(100) nome "NOT NULL"
+        varchar(150) email "NOT NULL"
+        varchar(150) assunto "NULL"
+        text mensagem "NOT NULL"
+        timestamp data_envio "NOT NULL"
+    }
+```
+
+
+#### Legenda de Relacionamentos e Cardinalidades
+
+* **`USUARIOS` para `PEDIDOS` (1 : N — Um para Muitos):**  
+  Um usuário (cliente) pode realizar zero ou vários pedidos, mas cada pedido pertence obrigatoriamente a um único usuário (`usuario_id`).
+
+* **`PEDIDOS` para `ITEM_PEDIDO` (1 : N — Um para Muitos):**  
+  Um pedido é composto por um ou vários itens cadastrados, enquanto cada item do pedido está vinculado a um único pedido (`pedido_id`).
+
+* **`PRODUTOS` para `ITEM_PEDIDO` (1 : N — Um para Muitos):**  
+  Um produto pode estar presente em zero ou vários itens de pedidos realizados, mas cada registro de item faz referência a um único produto específico (`produto_id`).
+
+> **Nota:** A tabela `MENSAGENS` é uma entidade independente no sistema, sem chaves estrangeiras (FK), destinada ao armazenamento das mensagens enviadas por visitantes e clientes no formulário "Fale Conosco".
