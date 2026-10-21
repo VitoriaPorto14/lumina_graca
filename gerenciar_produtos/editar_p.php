@@ -17,18 +17,18 @@ require_once __DIR__ . '/../includes/functions.php';
 // Captura o ID do produto passado pela URL via parâmetro GET
 $id = $_GET['id'] ?? null;
 
-// Se nenhum ID for informado na URL, redireciona para a página de produtos
+// Se nenhum ID for informado na URL, redireciona para a página de estoque
 if (!$id) {
-    header("Location: /lumina_graca/produto.php");
+    header("Location: /lumina_graca/estoque.php");
     exit();
 }
 
 // Busca os dados atuais do produto no banco de dados usando o ID recebido
 $produto = consulta_p($conexao, $id);
 
-// Se o produto não for encontrado no banco de dados, redireciona para a página de produtos
+// Se o produto não for encontrado no banco de dados, redireciona para a página de estoque
 if (!$produto) {
-    header("Location: /lumina_graca/produto.php");
+    header("Location: /lumina_graca/estoque.php");
     exit();
 }
 
@@ -53,8 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Executa a função que atualiza os dados do produto no banco PostgreSQL
     atualizar_p($conexao, $id, $nome, $descricao, $preco, $estoque, $imagem_url);
 
-    // Redireciona o administrador de volta para a lista de produtos
-    header("Location: /lumina_graca/produto.php");
+    // Redireciona o administrador de volta para a lista de estoque
+    header("Location: /lumina_graca/estoque.php");
     // Encerra a execução do script
     exit();
 }
@@ -84,8 +84,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <small class="form-alerta">Campos obrigatórios</small>
             </div>
 
-            <!-- Formulário apontando para o script de edição mantendo o ID na URL -->
-            <form action="/lumina_graca/app_p/editar_p.php?id=<?php echo $id; ?>" method="POST" enctype="multipart/form-data" class="form-produto">
+            <!-- Formulário com action vazio enviando para a própria URL atual de edição -->
+            <form action="" method="POST" enctype="multipart/form-data" class="form-produto">
                 <div class="form-grupo">
                     <label for="nome">Nome do Produto *</label>
                     <!-- Preenche o campo de texto com o nome atual salvo no banco, tratando caracteres especiais -->
