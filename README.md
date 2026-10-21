@@ -391,3 +391,66 @@ css/                         # Arquivos de estilização e visual do site
 │
 └── uploads/                 # Diretório onde são salvas as imagens enviadas pelos usuários (imagens dos produtos)
 ```
+
+
+## 9 Banco de Dados
+
+### 9.1 Dicionário de Dados
+### Tabela 1: `usuarios`
+
+| Nome do Campo | Nome do Campo no Banco | Tipo de Dado | Descrição | Chave | Obrigatoriedade | Tipo da Variável | Máscara do Campo | Tabela / Campo de Origem |
+| :--- | :--- | :--- | :--- | :---: | :---: | :--- | :---: | :---: |
+| **ID do Usuário** | id | INT | Identificador único do usuário | PK | NOT NULL | Número inteiro | -- | -- |
+| **Nome Completo** | nome | VARCHAR(100) | Nome completo informado pelo usuário no cadastro | -- | NOT NULL | Caractere | -- | -- |
+| **E-mail de Acesso** | email | VARCHAR(150) | Endereço de e-mail único do usuário para login | -- | NOT NULL | Caractere | -- | -- |
+| **Senha Criptografada** | senha | VARCHAR(255) | Hash da senha do usuário | -- | NOT NULL | Caractere | -- | -- |
+| **Tipo de Perfil** | tipo | VARCHAR(20) | Nível de acesso no sistema (cliente ou admin) | -- | NOT NULL | Caractere | -- | -- |
+
+---
+
+### Tabela 2: `produtos`
+
+| Nome do Campo | Nome do Campo no Banco | Tipo de Dado | Descrição | Chave | Obrigatoriedade | Tipo da Variável | Máscara do Campo | Tabela / Campo de Origem |
+| :--- | :--- | :--- | :--- | :---: | :---: | :--- | :---: | :---: |
+| **ID do Produto** | id | INT | Identificador único do produto | PK | NOT NULL | Número inteiro | -- | -- |
+| **Nome do Produto** | nome | VARCHAR(100) | Nome comercial da peça ou produto | -- | NOT NULL | Caractere | -- | -- |
+| **Descrição do Produto** | descricao | TEXT | Detalhes, tecido e especificações do produto | -- | NULL | Texto longo | -- | -- |
+| **Preço do Produto** | preco | NUMERIC(10,2) | Valor unitário de venda do produto | -- | NOT NULL | Decimal | R$ #.##0,00 | -- |
+| **Estoque** | estoque | INT | Quantidade disponível em estoque | -- | NOT NULL | Número inteiro | -- | -- |
+| **URL da Imagem** | imagem_url | VARCHAR(255) | Nome do arquivo de imagem salvo no servidor | -- | NULL | Caractere | -- | -- |
+
+---
+
+### Tabela 3: `pedidos`
+
+| Nome do Campo | Nome do Campo no Banco | Tipo de Dado | Descrição | Chave | Obrigatoriedade | Tipo da Variável | Máscara do Campo | Tabela / Campo de Origem |
+| :--- | :--- | :--- | :--- | :---: | :---: | :--- | :---: | :---: |
+| **ID do Pedido** | id | INT | Identificador único do pedido | PK | NOT NULL | Número inteiro | -- | -- |
+| **ID do Usuário** | usuario_id | INT | Identificador do cliente que realizou a compra | FK | NOT NULL | Número inteiro | -- | usuarios.id |
+| **Data do Pedido** | data_pedido | TIMESTAMP | Data e hora exata em que o pedido foi efetuado | -- | NOT NULL | Data e Hora | DD/MM/AAAA HH:MM:SS | -- |
+| **Total do Pedido** | total | NUMERIC(10,2) | Valor total acumulado da compra | -- | NOT NULL | Decimal | R$ #.##0,00 | -- |
+
+---
+
+### Tabela 4: `item_pedido`
+
+| Nome do Campo | Nome do Campo no Banco | Tipo de Dado | Descrição | Chave | Obrigatoriedade | Tipo da Variável | Máscara do Campo | Tabela / Campo de Origem |
+| :--- | :--- | :--- | :--- | :---: | :---: | :--- | :---: | :---: |
+| **ID do Item** | id | INT | Identificador único do item do pedido | PK | NOT NULL | Número inteiro | -- | -- |
+| **ID do Pedido** | pedido_id | INT | Identificador do pedido ao qual o item pertence | FK | NOT NULL | Número inteiro | -- | pedidos.id |
+| **ID do Produto** | produto_id | INT | Identificador do produto adquirido | FK | NOT NULL | Número inteiro | -- | produtos.id |
+| **Quantidade** | quantidade | INT | Quantidade comprada do produto | -- | NOT NULL | Número inteiro | -- | -- |
+| **Preço Unitário** | preco_unitario | NUMERIC(10,2) | Preço unitário do produto no momento da compra | -- | NOT NULL | Decimal | R$ #.##0,00 | produtos.preco |
+
+---
+
+### Tabela 5: `mensagens`
+
+| Nome do Campo | Nome do Campo no Banco | Tipo de Dado | Descrição | Chave | Obrigatoriedade | Tipo da Variável | Máscara do Campo | Tabela / Campo de Origem |
+| :--- | :--- | :--- | :--- | :---: | :---: | :--- | :---: | :---: |
+| **ID da Mensagem** | id | INT | Identificador único da mensagem enviada | PK | NOT NULL | Número inteiro | -- | -- |
+| **Nome do Remetente** | nome | VARCHAR(100) | Nome completo de quem enviou o contato | -- | NOT NULL | Caractere | -- | -- |
+| **E-mail do Remetente** | email | VARCHAR(150) | Endereço de e-mail de contato do remetente | -- | NOT NULL | Caractere | -- | -- |
+| **Assunto** | assunto | VARCHAR(150) | Assunto ou título da mensagem | -- | NULL | Caractere | -- | -- |
+| **Mensagem** | mensagem | TEXT | Conteúdo de texto enviado pelo formulário Fale Conosco | -- | NOT NULL | Texto longo | -- | -- |
+| **Data do Envio** | data_envio | TIMESTAMP | Data e hora em que a mensagem foi enviada | -- | NOT NULL | Data e Hora | DD/MM/AAAA HH:MM:SS | -- |
