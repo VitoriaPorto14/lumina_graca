@@ -29,7 +29,7 @@ cd caminho/pasta_desejada
 
 - Execute o git clone:
 ```bash
-https://github.com/VitoriaPorto14/lumina_graca.git
+git clone <https://github.com/VitoriaPorto14/lumina_graca.git>
 ```
 
 - Acesse a pasta:
