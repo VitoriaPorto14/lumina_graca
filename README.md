@@ -347,49 +347,47 @@ Gestão de Mensagens: Pode ver mensagens enviadas pelos usuários
 
 A estrutura abaixo apresenta a organização das pastas e arquivos da Lumina & Graça, explicando de forma simples a função de cada item na aplicação:
 ```text
-lumina_graca/
-├── conta.php                     # Mostra as informações da conta do usuário
-├── estoque.php                   # Mostra o estoque da loja
-├── index.php                     # Página inicial do sistema
-├── login.php                     # Tela para login
-├── logout.php                    # Código PHP para o usuário sair
-├── mensagens.php                 # Aba para visualizar mensagens enviadas por clientes ao admin
-├── pedidos.php                   # Aba para o admin acompanhar as vendas da loja em tempo real
+lumina_grca/
+├── conta.php                # Página do perfil e informações da conta do usuário
+├── estoque.php              # Página de controle e visualização do estoque
+├── index.php                # Página inicial do sistema
+├── login.php                # Página para entrada/autenticação no sistema
+├── logout.php               # Encerra a sessão da conta do usuário
+├── mensagens.php            # Central de mensagens e contatos recebidos
+├── pedidos.php              # Visualização e gestão dos pedidos
+├── README.md                # Documentação e instruções sobre o projeto
 │
-├── atendimento/                  # Módulo de suporte e contato do cliente
-│   ├── contato.php               # Formulário Fale Conosco
-│   ├── politica_privacidade.php  # Política de Privacidade da página
-│   └── sobre_nos.php             # Sobre a Lumina & Graça
+├── atendimento/             # Páginas relacionadas ao suporte e informações institucionais
+│   ├── contato.php          # Formulário de contato para os clientes
+│   ├── politica_privacidade.php # Página com termos e políticas de privacidade
+│   └── sobre_nos.php        # Informações sobre a empresa/projeto
 │
-├── css/                          # Arquivo de visual e cores
-│   └── style.css                 # Estilos da tela
+css/                         # Arquivos de estilização e visual do site
+│   ├── imagens/             # Imagens e recursos visuais utilizados nos estilos do site
+│   │
+│   └── style.css            # Estilização do sistema
 │
-├── database/                   # Conexão com o banco
-│   └── connect.php             # Script que conecta o PHP ao PostgreSQL
+├── database/                # Arquivos para integração com o banco de dados
+│   └── connect.php          # Script responsável por conectar o PHP ao banco de dados
 │
-├── images/                     # Imagens fixas do site (logos, ícones e fundos)
+├── gerenciar_produtos/      # Operações administrativas do catálogo de produtos
+│   ├── adicionar_p.php      # Formulário/script para o admin cadastrar novos produtos
+│   ├── editar_p.php         # Formulário/script para o admin alterar informações dos produtos existentes
+│   └── excluir_p.php        # Formulário/script para o admin remover produtos do sistema
 │
-├── includes/                   # Partes repetidas das telas (cabeçalho, rodapé e funções)
-│   ├── header.php              # Cabeçalho / Menu do topo
-│   ├── footer.php              # Rodapé
-│   └── functions.php           # Funções gerais do sistema utilizadas nas páginas
+├── gerenciar_usuario/       # Operações administrativas de usuários
+│   ├── adicionar_u.php      # Formulário/script para o usuário se cadastrar
+│   ├── atualizar_u.php      # Formulário/script para o usuário editar dados da conta
+│   └── excluir_u.php        # Formulário para o usuário apagar a sua própria conta com base no ID
 │
-├── login/                      # Arquivos sobre o usuário no sistema
-│   ├── cadastro.php            # Criar conta
-│   ├── login.php               # Entrar no site
-│   ├── logout.php              # Sair da conta
-│   ├── atualizar_perfil.php    # Atualizar informações do perfil
-│   └── verifica_user.php       # Arquivo que garante que apenas usuários logados tenham acesso às páginas principais
+├── includes/                # Partes reutilizáveis das páginas e funções auxiliares
+│   ├── footer.php           # Rodapé padrão do site
+│   ├── functions.php        # Funções gerais PHP utilizadas no sistema
+│   └── header.php           # Cabeçalho e menu de navegação superior
 │
-├── pages/                      # As páginas principais do sistema
-│   ├── inicio.php              # Painel principal do usuário
-│   ├── viagens.php             # Lista de viagens salvas
-│   ├── adicionar.php           # Formulário para cadastrar viagem
-│   ├── atualizar.php           # Formulário para editar viagem
-│   ├── detalhes_viagem.php     # Tela que mostra uma viagem completa
-│   ├── pesquisar.php           # Campo de busca de viagens
-│   ├── excluir.php             # Apaga a viagem
-│   └── perfil.php              # Exibe as informações do usuário
+├── produtos/                # Páginas da loja focadas em navegação e compra
+│   ├── checkout.php         # Tela de finalização de compra/pagamento
+│   └── m_produtos.php       # Exibição/vitrine dos produtos disponíveis
 │
-└── uploads/                    # Pasta onde ficam salvas as fotos que os usuários enviam
+└── uploads/                 # Diretório onde são salvas as imagens enviadas pelos usuários (imagens dos produtos)
 ```
