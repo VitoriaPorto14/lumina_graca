@@ -1,5 +1,6 @@
-# Lumina & Graça — E-Commerce de Moda Cristã e Beleza Consciente
-A **Lumina & Graça** é uma aplicação web desenvolvida em PHP com foco no gerenciamento e na comercialização de peças de moda modesta, vestuário cristão e produtos de beleza consciente. O sistema foi criado com o objetivo de oferecer uma experiência de compra elegante, organizada e fluida para as clientes, além de proporcionar uma interface simples e eficiente para a gestão da loja por parte dos administradores.
+## Lumina & Graça — E-Commerce de Moda Cristã e Vestuário Modesto
+
+A **Lumina & Graça** é uma aplicação web desenvolvida em PHP com foco no gerenciamento e na comercialização de peças de moda modesta e vestuário cristão. O sistema foi criado com o objetivo de oferecer uma experiência de compra elegante, organizada e fluida para as clientes, além de proporcionar uma interface simples e eficiente para a gestão da loja por parte dos administradores.
 
 A plataforma permite realizar operações essenciais de e-commerce e administração, como cadastro, listagem, edição e exclusão de registros de produtos (CRUD), controle de estoque em tempo real, acompanhamento de pedidos e centralização de mensagens de atendimento, utilizando um banco de dados PostgreSQL integrado. Dessa forma, o sistema auxilia no controle das informações do catálogo, dos usuários e das vendas, tornando o atendimento mais rápido, seguro e alinhado aos valores da marca.
 
@@ -53,8 +54,8 @@ Juntamente aos arquivos do projeto, você tem acesso ao dump do banco de dados `
     psql -U postgres
     ```
 
-- Crie o banco de dados lumina:
-```bash
+- Crie o banco de dados `lumina`:
+```sql
 DROP DATABASE IF EXISTS lumina;
 CREATE DATABASE lumina;
 ```
@@ -315,12 +316,11 @@ Abaixo está o briefing que foi utilizado para a criação deste projeto:
 - Motivação: Por que você decidiu criar este sistema agora? Meu objetivo principal é provar que a mulher cristã pode, sim, vestir-se de forma elegante, moderna, e alinhada aos seus valores, sem parecer ultrapassada ou brega. Queremos resgatar a beleza e a autoestima de cada cliente através de peças sofisticadas e de bom gosto.
 - Nome da Marca/Empresa: Lumina & Graça
 - Slogan / Proposta de Valor: Com Cristo, tudo se ilumina
-- História / Conceito da Marca: Moda modesta cristã
-- Principais Produtos: Roupas em geral.
+- História / Conceito da Marca: Moda modesta cristã.
 - Diferenciais Competitivos: Produção própria e tecidos nobres.
 
 2. Usuários e Acessos
-- Público-Alvo: Público feminino.
+- Público-Alvo: O público-alvo abrange desde o público infantil até o adulto, atendendo meninas, jovens e mulheres que buscam peças de moda modesta e elegante.
 - Níveis de Permissão: Usuários do tipo cliente e do tipo admin.
 
 3. Requisitos Funcionais do E-Commerce
@@ -410,11 +410,13 @@ css/                         # Arquivos de estilização e visual do site
 
 #### Tabela 2: `produtos`
 
+#### Tabela 2: `produtos`
+
 | Nome do Campo | Nome do Campo no Banco | Tipo de Dado | Descrição | Chave | Obrigatoriedade | Tipo da Variável | Máscara do Campo | Tabela / Campo de Origem |
 | :--- | :--- | :--- | :--- | :---: | :---: | :--- | :---: | :---: |
 | **ID do Produto** | id | INT | Identificador único do produto | PK | NOT NULL | Número inteiro | -- | -- |
-| **Nome do Produto** | nome | VARCHAR(100) | Nome comercial da peça ou produto | -- | NOT NULL | Caractere | -- | -- |
-| **Descrição do Produto** | descricao | TEXT | Detalhes, tecido e especificações do produto | -- | NULL | Texto longo | -- | -- |
+| **Nome do Produto** | nome | VARCHAR(100) | Nome comercial da peça | -- | NOT NULL | Caractere | -- | -- |
+| **Descrição do Produto** | descricao | TEXT | Detalhes, tecido, caimento e especificações da peça | -- | NULL | Texto longo | -- | -- |
 | **Preço do Produto** | preco | NUMERIC(10,2) | Valor unitário de venda do produto | -- | NOT NULL | Decimal | R$ 0,00 | -- |
 | **Estoque** | estoque | INT | Quantidade disponível em estoque | -- | NOT NULL | Número inteiro | -- | -- |
 | **URL da Imagem** | imagem_url | VARCHAR(255) | Nome do arquivo de imagem salvo no servidor | -- | NULL | Caractere | -- | -- |
