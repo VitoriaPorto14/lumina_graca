@@ -1,25 +1,34 @@
 <?php
+// Inicia ou recupera a sessão do usuário no navegador
 session_start();
+
+// Importa o arquivo com as funções globais e a conexão com o banco de dados
 require_once __DIR__ . '/../includes/functions.php';
 
+// Variável para armazenar o ID digitado para exclusão
 $id = '';
 
-// Processa a exclusão quando o formulário é enviado
+// Processa a exclusão quando o formulário é enviado pelo método POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Captura o ID enviado no formulário e remove espaços extras das pontas
     $id = trim($_POST['id'] ?? '');
 
+    // Verifica se um ID válido foi informado
     if (!empty($id)) {
-        // Executa a exclusão da conta no banco de dados
+        // Executa a função que apaga o registro do usuário no banco PostgreSQL
         apagar_u($conexao, $id);
 
-        // Se o usuário apagou a PRÓPRIA conta logada, encerra a sessão
+        // Se o usuário estiver apagando a PRÓPRIA conta atualmente conectada, encerra a sessão dele
         if (isset($_SESSION['usuario_id']) && $_SESSION['usuario_id'] == $id) {
+            // Limpa todas as variáveis armazenadas na sessão
             session_unset();
+            // Destrói a sessão do usuário
             session_destroy();
         }
 
-        // Redireciona diretamente para a página inicial
+        // Redireciona para a página inicial informando a exclusão via URL
         header("Location: ../index.php?conta_excluida=1");
+        // Encerra a execução do script
         exit();
     }
 }
@@ -37,6 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
+    <!-- Inclui o cabeçalho/menu topo reutilizável da aplicação -->
     <?php include __DIR__ . '/../includes/header.php'; ?>
 
     <main class="container">
@@ -44,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="form-header text-center">
                 <h2>Deletar Conta</h2>
                 <p class="form-subtitulo">Informe o ID do usuário que deseja remover do sistema</p>
-                <small class="form-alerta">* Esta ação é irreversível</small>
+                <small class="form-alerta">Esta ação é irreversível</small>
                 <div class="divisor-dourado"></div>
             </div>
 
@@ -66,6 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </main>
 
+    <!-- Inclui o rodapé reutilizável na parte inferior da página -->
     <?php include __DIR__ . '/../includes/footer.php'; ?>
 </body>
 

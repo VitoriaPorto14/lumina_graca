@@ -1,30 +1,42 @@
 <?php
+// Inicia ou recupera a sessão do usuário no navegador
 session_start();
 
+// Verifica se o usuário NÃO está logado ou se o tipo de conta NÃO é 'admin'
 if (!isset($_SESSION['usuario_id']) || ($_SESSION['usuario_tipo'] ?? '') !== 'admin') {
+    // Exibe mensagem de acesso negado para usuários não autorizados
     echo "Acesso negado. Esta página é restrita aos administradores.";
     echo "<br><a href='../index.php'>Voltar para o início</a>";
+    // Interrompe o carregamento da página imediatamente
     exit;
 }
+
+// Importa o arquivo com as funções do sistema e a conexão com o banco de dados
 require_once __DIR__ . '/../includes/functions.php';
 
+// Verifica se o formulário foi enviado através do método POST (ao clicar em 'ADICIONAR PRODUTO')
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Recebe e guarda em variáveis os dados digitados no formulário
     $nome = $_POST['nome'];
     $preco = $_POST['preco'];
     $estoque = $_POST['estoque'];
     $descricao = $_POST['descricao'];
     $imagem_url = '';
 
-    // Upload do arquivo de imagem
+    // Verifica se uma imagem foi enviada no upload
     if (!empty($_FILES['imagem_url']['name'])) {
+        // Gera um nome único para a imagem usando a data/hora atual (timestamp) + o nome do arquivo
         $imagem_url = time() . '_' . $_FILES['imagem_url']['name'];
+        // Move a imagem da pasta temporária para a pasta 'uploads' do projeto
         move_uploaded_file($_FILES['imagem_url']['tmp_name'], '../uploads/' . $imagem_url);
     }
 
-    // Chama a função definida no functions.php
+    // Executa a função que salva o novo produto no banco de dados PostgreSQL
     adicionar_p($conexao, $nome, $descricao, $preco, $estoque, $imagem_url);
 
+    // Redireciona o administrador de volta para a lista de produtos
     header("Location: /lumina_graca/produto.php");
+    // Encerra a execução do script
     exit();
 }
 ?>
@@ -41,6 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
+    <!-- Inclui o cabeçalho/menu topo reutilizável da aplicação -->
     <?php include __DIR__ . '/../includes/header.php'; ?>
 
     <main class="container">
@@ -48,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="form-header">
                 <h2>Adicionar Novo Produto</h2>
                 <p class="form-subtitulo">Preencha os dados abaixo para cadastrar a peça no estoque</p>
-                <small class="form-alerta">* Campos obrigatórios</small>
+                <small class="form-alerta">Campos obrigatórios</small>
             </div>
 
             <form action="adicionar_p.php" method="POST" enctype="multipart/form-data" class="form-produto">
@@ -103,6 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     </script>
 
+    <!-- Inclui o rodapé reutilizável na parte inferior da página -->
     <?php include __DIR__ . '/../includes/footer.php'; ?>
 </body>
 

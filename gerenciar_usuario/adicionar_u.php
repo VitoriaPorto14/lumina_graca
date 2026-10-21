@@ -1,17 +1,33 @@
 <?php
+// Inicia ou recupera a sessão do usuário no navegador
 session_start();
-require_once __DIR__ . "/../includes/functions.php"; 
 
+// Importa o arquivo com as funções globais e a conexão com o banco de dados
+require_once __DIR__ . "/../includes/functions.php";
+
+// Variável para controlar a exibição da mensagem de sucesso na tela
 $mensagem_sucesso = false;
 
+// Verifica se o formulário foi enviado através do método POST (ao clicar em 'CADASTRAR')
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Recebe o campo 'nome', remove espaços extras das pontas ou atribui texto vazio caso não exista
     $nome  = trim($_POST['nome'] ?? '');
+
+    // Recebe o campo 'email' e limpa espaços das pontas
     $email = trim($_POST['email'] ?? '');
+
+    // Recebe o campo 'senha' e limpa espaços das pontas
     $senha = trim($_POST['senha'] ?? '');
+
+    // Define o tipo de usuário padrão como 'cliente'
     $tipo  = 'cliente';
 
+    // Valida se todos os campos obrigatórios foram preenchidos
     if (!empty($nome) && !empty($email) && !empty($senha)) {
+        // Executa a função que cadastra o novo usuário no banco de dados PostgreSQL
         adicionar_u($conexao, $nome, $email, $senha, $tipo);
+
+        // Define a variável como verdadeira para mostrar o aviso de sucesso no HTML
         $mensagem_sucesso = true;
     }
 }
@@ -28,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
+    <!-- Inclui o cabeçalho/menu topo reutilizável da aplicação -->
     <?php include __DIR__ . '/../includes/header.php'; ?>
 
     <main class="container">
@@ -35,10 +52,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="form-header text-center">
                 <h2>Criar Conta</h2>
                 <p class="form-subtitulo">Junte-se à Lumina & Graça para uma experiência exclusiva</p>
-                <small class="form-alerta">* Campos obrigatórios</small>
+                <small class="form-alerta">Campos obrigatórios</small>
                 <div class="divisor-dourado"></div>
             </div>
 
+            <!-- Verifica se o cadastro foi realizado com sucesso para exibir o banner verde de confirmação -->
             <?php if ($mensagem_sucesso): ?>
                 <div class="alerta-sucesso-contato">
                     <span class="icone-sucesso">✨</span>
@@ -80,6 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </main>
 
+    <!-- Inclui o rodapé reutilizável na parte inferior da página -->
     <?php include __DIR__ . '/../includes/footer.php'; ?>
 </body>
 

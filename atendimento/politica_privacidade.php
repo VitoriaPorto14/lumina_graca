@@ -10,6 +10,7 @@
 </head>
 
 <body>
+    <!-- Inclui o arquivo do cabeçalho (menu superior) reutilizável nesta parte da página -->
     <?php include __DIR__ . '/../includes/header.php'; ?>
 
     <main class="container">
@@ -77,6 +78,7 @@
         </div>
     </main>
 
+    <!-- Inclui o arquivo do rodapé reutilizável na parte inferior da página -->
     <?php include __DIR__ . '/../includes/footer.php'; ?>
 </body>
 

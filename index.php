@@ -1,8 +1,11 @@
 <?php
+// Importa o arquivo que contém as funções do sistema e a conexão com o banco de dados
 require_once __DIR__ . '/includes/functions.php';
 
+// Array com os IDs dos produtos selecionados para aparecerem na seção "Mais Vendidos"
 $ids_destaque = [7, 8, 9, 10];
 
+// Executa a função que busca no banco apenas os produtos dos IDs definidos no array acima
 $produtos_destaque = listar_produtos_por_ids($conexao, $ids_destaque);
 ?>
 
@@ -18,8 +21,10 @@ $produtos_destaque = listar_produtos_por_ids($conexao, $ids_destaque);
 </head>
 
 <body>
+    <!-- Inclui o cabeçalho/menu topo reutilizável da aplicação -->
     <?php include __DIR__ . '/includes/header.php'; ?>
     
+    <!-- Verifica se o usuário veio do redirecionamento de exclusão de conta para exibir mensagem de confirmação -->
     <?php if (isset($_GET['conta_excluida'])): ?>
         <div class="container text-center margin-top">
             <p style="color: #a93226; font-weight: bold;">Sua conta foi excluída com sucesso.</p>
@@ -27,7 +32,7 @@ $produtos_destaque = listar_produtos_por_ids($conexao, $ids_destaque);
     <?php endif; ?>
 
     <main class="container">
-        <!-- Hero Section / Boas-vindas sem a logo repetida -->
+        <!-- Hero Section / Boas-vindas -->
         <section class="hero-section">
             <h1>Bem-vinda à Lumina & Graça!</h1>
             <p class="slogan"><em>"Com Cristo, tudo se ilumina."</em></p>
@@ -66,26 +71,35 @@ $produtos_destaque = listar_produtos_por_ids($conexao, $ids_destaque);
         <section class="secao-produtos">
             <h2>Mais Vendidos</h2>
 
+            <!-- Verifica se a busca de produtos em destaque não retornou nenhum item -->
             <?php if (empty($produtos_destaque)): ?>
                 <p class="sem-produtos">Nenhum produto disponível no momento.</p>
             <?php else: ?>
                 <div class="grid-produtos">
+                    <!-- Percorre o array de produtos em destaque um por um -->
                     <?php foreach ($produtos_destaque as $p): ?>
                         <div class="card-produto">
                             <div class="img-container">
+                                <!-- Verifica se o produto possui uma imagem cadastrada -->
                                 <?php if (!empty($p['imagem_url'])): ?>
+                                    <!-- Exibe a foto do produto tratando caracteres especiais contra XSS -->
                                     <img src="/lumina_graca/uploads/<?php echo htmlspecialchars($p['imagem_url']); ?>" alt="<?php echo htmlspecialchars($p['nome']); ?>">
                                 <?php else: ?>
+                                    <!-- Exibe aviso padrão se não houver imagem -->
                                     <div class="sem-imagem">[Sem Imagem]</div>
                                 <?php endif; ?>
                             </div>
 
                             <div class="produto-conteudo">
+                                <!-- Exibe o nome do produto seguro contra XSS -->
                                 <h3><?php echo htmlspecialchars($p['nome']); ?></h3>
+                                <!-- Exibe a descrição do produto -->
                                 <p class="descricao-curta"><?php echo htmlspecialchars($p['descricao']); ?></p>
+                                <!-- Formata o valor no padrão de moeda brasileira (R$ 0,00) -->
                                 <p class="preco">R$ <?php echo number_format($p['preco'], 2, ',', '.'); ?></p>
 
                                 <form action="/lumina_graca/produtos/checkout.php" method="GET">
+                                    <!-- Envia os dados do produto selecionado via GET para a página de checkout -->
                                     <input type="hidden" name="id" value="<?php echo htmlspecialchars($p['id']); ?>">
                                     <input type="hidden" name="produto" value="<?php echo htmlspecialchars($p['nome']); ?>">
                                     <input type="hidden" name="preco" value="<?php echo htmlspecialchars($p['preco']); ?>">
@@ -103,6 +117,7 @@ $produtos_destaque = listar_produtos_por_ids($conexao, $ids_destaque);
         </section>
     </main>
 
+    <!-- Inclui o rodapé reutilizável na parte inferior da página -->
     <?php include __DIR__ . '/includes/footer.php'; ?>
 </body>
 
