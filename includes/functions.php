@@ -276,23 +276,20 @@ function buscar_todos_pedidos($conexao) {
    MÓDULO 4: ATENDIMENTO / MENSAGENS (FALE CONOSCO)
    ========================================================================== */
 
-// Grava no banco a mensagem enviada pelo formulário de contato
+// Função para salvar mensagem enviada no formulário
 function salvar_mensagem_contato($conexao, $nome, $email, $assunto, $mensagem) {
-    $sql = "INSERT INTO mensagens (nome, email, assunto, mensagem) 
-            VALUES (:nome, :email, :assunto, :mensagem)";
-    $stmt = $conexao->prepare($sql);
+    $stmt = $conexao->prepare("INSERT INTO mensagens (nome, email, assunto, mensagem) VALUES (:nome, :email, :assunto, :mensagem)");
     return $stmt->execute([
-        ':nome'     => $nome,
-        ':email'    => $email,
-        ':assunto'  => $assunto,
+        ':nome' => $nome,
+        ':email' => $email,
+        ':assunto' => $assunto,
         ':mensagem' => $mensagem
     ]);
 }
 
 // Retorna todas as mensagens registradas para exibição no painel administrativo
 function buscar_mensagens_contato($conexao) {
-    $sql = "SELECT * FROM mensagens ORDER BY data_envio DESC";
-    $stmt = $conexao->prepare($sql);
+    $stmt = $conexao->prepare("SELECT * FROM mensagens ORDER BY id DESC");
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }

@@ -7,14 +7,26 @@ require_once __DIR__ . '/includes/functions.php';
 
 // Bloqueia o acesso caso o usuário NÃO esteja logado ou NÃO seja um administrador
 if (!isset($_SESSION['usuario_id']) || ($_SESSION['usuario_tipo'] ?? '') !== 'admin') {
-    // Redireciona o usuário comum para a tela de login
     header('Location: login.php');
-    // Encerra a execução do script
     exit;
 }
 
-// Executa a função do functions.php que busca todas as mensagens de contato registradas no banco
-$mensagens = buscar_mensagens_contato($conexao);
+// Executa a busca de mensagens. Tenta a função principal ou fallback genérico
+$mensagens = [];
+if (function_exists('buscar_mensagens_contato')) {
+    $mensagens = buscar_mensagens_contato($conexao);
+} elseif (function_exists('buscar_todas_mensagens')) {
+    $mensagens = buscar_todas_mensagens($conexao);
+} else {
+    // Fallback direto via PDO caso nenhuma função esteja declarada no functions.php
+    try {
+        $stmt = $conexao->prepare("SELECT * FROM mensagens ORDER BY id DESC");
+        $stmt->execute();
+        $mensagens = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        $mensagens = [];
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -60,17 +72,17 @@ $mensagens = buscar_mensagens_contato($conexao);
                         <tbody>
                             <!-- Percorre a lista de mensagens recebidas linha por linha -->
                             <?php foreach ($mensagens as $m): ?>
+                                <?php
+                                    // Trata dinamicamente se o campo de data se chama 'data_envio' ou 'created_at'
+                                    $data_crua = $m['data_envio'] ?? $m['created_at'] ?? null;
+                                    $data_formatada = $data_crua ? date('d/m/Y H:i', strtotime($data_crua)) : '-';
+                                ?>
                                 <tr>
-                                    <!-- Converte o formato do banco de dados para a data/hora brasileira (dd/mm/aaaa hh:mm) -->
-                                    <td style="white-space: nowrap;"><?php echo date('d/m/Y H:i', strtotime($m['data_envio'])); ?></td>
-                                    <!-- Exibe o nome de quem enviou, tratando caracteres especiais contra XSS -->
-                                    <td><strong><?php echo htmlspecialchars($m['nome']); ?></strong></td>
-                                    <!-- Cria um link mailto para responder diretamente ao e-mail informado -->
-                                    <td><a href="mailto:<?php echo htmlspecialchars($m['email']); ?>" class="btn-link"><?php echo htmlspecialchars($m['email']); ?></a></td>
-                                    <!-- Exibe o assunto da mensagem -->
-                                    <td><?php echo htmlspecialchars($m['assunto']); ?></td>
-                                    <!-- Converte as quebras de linha da mensagem (\n) em tags HTML (<br>) com nl2br -->
-                                    <td><?php echo nl2br(htmlspecialchars($m['mensagem'])); ?></td>
+                                    <td style="white-space: nowrap;"><?php echo $data_formatada; ?></td>
+                                    <td><strong><?php echo htmlspecialchars($m['nome'] ?? ''); ?></strong></td>
+                                    <td><a href="mailto:<?php echo htmlspecialchars($m['email'] ?? ''); ?>" class="btn-link"><?php echo htmlspecialchars($m['email'] ?? ''); ?></a></td>
+                                    <td><?php echo htmlspecialchars($m['assunto'] ?? 'Sem assunto'); ?></td>
+                                    <td><?php echo nl2br(htmlspecialchars($m['mensagem'] ?? '')); ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -79,7 +91,7 @@ $mensagens = buscar_mensagens_contato($conexao);
             <?php endif; ?>
 
             <div class="auth-footer text-center" style="margin-top: 30px;">
-                <a href="index.php" class="btn-link">← Voltar para o Inicio</a>
+                <a href="index.php" class="btn-link">← Voltar para o Início</a>
             </div>
         </div>
     </main>
