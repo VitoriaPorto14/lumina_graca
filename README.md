@@ -505,3 +505,17 @@ erDiagram
         timestamp data_envio "NOT NULL"
     }
 ```
+
+
+#### Legenda de Relacionamentos e Cardinalidades
+
+* **`USUARIOS` para `PEDIDOS` (1 : N — Um para Muitos):**  
+  Um usuário (cliente) pode realizar zero ou vários pedidos, mas cada pedido pertence obrigatoriamente a um único usuário (`usuario_id`).
+
+* **`PEDIDOS` para `ITEM_PEDIDO` (1 : N — Um para Muitos):**  
+  Um pedido é composto por um ou vários itens cadastrados, enquanto cada item do pedido está vinculado a um único pedido (`pedido_id`).
+
+* **`PRODUTOS` para `ITEM_PEDIDO` (1 : N — Um para Muitos):**  
+  Um produto pode estar presente em zero ou vários itens de pedidos realizados, mas cada registro de item faz referência a um único produto específico (`produto_id`).
+
+> **Nota:** A tabela `MENSAGENS` é uma entidade independente no sistema, sem chaves estrangeiras (FK), destinada ao armazenamento das mensagens enviadas por visitantes e clientes no formulário "Fale Conosco".
