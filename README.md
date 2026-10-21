@@ -396,7 +396,7 @@ css/                         # Arquivos de estilização e visual do site
 ## 9 Banco de Dados
 
 ### 9.1 Dicionário de Dados
-### Tabela 1: `usuarios`
+#### Tabela 1: `usuarios`
 
 | Nome do Campo | Nome do Campo no Banco | Tipo de Dado | Descrição | Chave | Obrigatoriedade | Tipo da Variável | Máscara do Campo | Tabela / Campo de Origem |
 | :--- | :--- | :--- | :--- | :---: | :---: | :--- | :---: | :---: |
@@ -408,7 +408,7 @@ css/                         # Arquivos de estilização e visual do site
 
 ---
 
-### Tabela 2: `produtos`
+#### Tabela 2: `produtos`
 
 | Nome do Campo | Nome do Campo no Banco | Tipo de Dado | Descrição | Chave | Obrigatoriedade | Tipo da Variável | Máscara do Campo | Tabela / Campo de Origem |
 | :--- | :--- | :--- | :--- | :---: | :---: | :--- | :---: | :---: |
@@ -421,7 +421,7 @@ css/                         # Arquivos de estilização e visual do site
 
 ---
 
-### Tabela 3: `pedidos`
+#### Tabela 3: `pedidos`
 
 | Nome do Campo | Nome do Campo no Banco | Tipo de Dado | Descrição | Chave | Obrigatoriedade | Tipo da Variável | Máscara do Campo | Tabela / Campo de Origem |
 | :--- | :--- | :--- | :--- | :---: | :---: | :--- | :---: | :---: |
@@ -432,7 +432,7 @@ css/                         # Arquivos de estilização e visual do site
 
 ---
 
-### Tabela 4: `item_pedido`
+#### Tabela 4: `item_pedido`
 
 | Nome do Campo | Nome do Campo no Banco | Tipo de Dado | Descrição | Chave | Obrigatoriedade | Tipo da Variável | Máscara do Campo | Tabela / Campo de Origem |
 | :--- | :--- | :--- | :--- | :---: | :---: | :--- | :---: | :---: |
@@ -444,7 +444,7 @@ css/                         # Arquivos de estilização e visual do site
 
 ---
 
-### Tabela 5: `mensagens`
+#### Tabela 5: `mensagens`
 
 | Nome do Campo | Nome do Campo no Banco | Tipo de Dado | Descrição | Chave | Obrigatoriedade | Tipo da Variável | Máscara do Campo | Tabela / Campo de Origem |
 | :--- | :--- | :--- | :--- | :---: | :---: | :--- | :---: | :---: |
@@ -454,3 +454,54 @@ css/                         # Arquivos de estilização e visual do site
 | **Assunto** | assunto | VARCHAR(150) | Assunto ou título da mensagem | -- | NULL | Caractere | -- | -- |
 | **Mensagem** | mensagem | TEXT | Conteúdo de texto enviado pelo formulário Fale Conosco | -- | NOT NULL | Texto longo | -- | -- |
 | **Data do Envio** | data_envio | TIMESTAMP | Data e hora em que a mensagem foi enviada | -- | NOT NULL | Data e Hora | DD/MM/AAAA HH:MM:SS | -- |
+
+
+### 9.2 DER
+
+```mermaid
+erDiagram
+    USUARIOS ||--o{ PEDIDOS : "realiza"
+    PEDIDOS ||--|{ ITEM_PEDIDO : "possui"
+    PRODUTOS ||--o{ ITEM_PEDIDO : "contem"
+
+    USUARIOS {
+        int id PK "UNIQUE AUTOINCREMENT"
+        varchar(100) nome "NOT NULL"
+        varchar(150) email "NOT NULL"
+        varchar(255) senha "NOT NULL"
+        varchar(20) tipo "NOT NULL"
+    }
+
+    PRODUTOS {
+        int id PK "UNIQUE AUTOINCREMENT"
+        varchar(100) nome "NOT NULL"
+        text descricao "NULL"
+        numeric preco "NOT NULL"
+        int estoque "NOT NULL"
+        varchar(255) imagem_url "NULL"
+    }
+
+    PEDIDOS {
+        int id PK "UNIQUE AUTOINCREMENT"
+        int usuario_id FK "NOT NULL"
+        timestamp data_pedido "NOT NULL"
+        numeric total "NOT NULL"
+    }
+
+    ITEM_PEDIDO {
+        int id PK "UNIQUE AUTOINCREMENT"
+        int pedido_id FK "NOT NULL"
+        int produto_id FK "NOT NULL"
+        int quantidade "NOT NULL"
+        numeric preco_unitario "NOT NULL"
+    }
+
+    MENSAGENS {
+        int id PK "UNIQUE AUTOINCREMENT"
+        varchar(100) nome "NOT NULL"
+        varchar(150) email "NOT NULL"
+        varchar(150) assunto "NULL"
+        text mensagem "NOT NULL"
+        timestamp data_envio "NOT NULL"
+    }
+```
