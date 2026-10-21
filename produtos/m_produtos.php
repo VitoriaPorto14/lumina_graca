@@ -15,19 +15,8 @@ if (!isset($_SESSION['usuario_id'])) {
     exit;
 }
 
-// Captura o termo digitado na barra de pesquisa (caso enviado via GET)
-$busca = $_GET['busca'] ?? '';
-
-// Se o usuário fez uma pesquisa, filtra os produtos no PostgreSQL por Nome ou Descrição
-if (!empty($busca)) {
-    $sql = "SELECT * FROM produtos WHERE nome ILIKE :busca OR descricao ILIKE :busca ORDER BY id DESC";
-    $stmt = $conexao->prepare($sql);
-    $stmt->execute([':busca' => '%' . $busca . '%']);
-    $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} else {
-    // Se não houver termo de busca, traz todos os produtos cadastrados normalmente
-    $produtos = listar_p($conexao);
-}
+// Executa a função do functions.php que busca todos os produtos cadastrados no banco
+$produtos = listar_p($conexao);
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -35,7 +24,7 @@ if (!empty($busca)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Produtos - Lumina & Graça</title>
+    <title>Produtos</title>
     <link rel="stylesheet" href="/lumina_graca/css/style.css">
     <link rel="icon" type="image/png" href="/lumina_graca/css/imagens/logo_guia.png">
 </head>
@@ -48,26 +37,13 @@ if (!empty($busca)) {
         <div class="header-vitrine">
             <h1>Nossa Coleção</h1>
             <p class="subtitulo-vitrine">Peças exclusivas desenhadas para vestir com elegância e modéstia</p>
-            
-            <!-- Exibe feedback do termo pesquisado caso exista uma busca ativa -->
-            <?php if (!empty($busca)): ?>
-                <p class="resultado-busca" style="margin-top: 10px; color: #8c6d3b;">
-                    Exibindo resultados para: <strong>"<?php echo htmlspecialchars($busca); ?>"</strong>
-                    <a href="m_produtos.php" style="margin-left: 8px; font-size: 0.85rem; color: #c5a880; text-decoration: underline;">(limpar pesquisa)</a>
-                </p>
-            <?php endif; ?>
-
             <div class="divisor-dourado"></div>
         </div>
 
         <!-- Verifica se a lista de produtos retornada do banco está vazia -->
         <?php if (empty($produtos)): ?>
             <div class="card-vazio">
-                <?php if (!empty($busca)): ?>
-                    <p>Nenhum produto foi encontrado para a pesquisa <strong>"<?php echo htmlspecialchars($busca); ?>"</strong>.</p>
-                <?php else: ?>
-                    <p>Nenhum produto disponível para venda no momento.</p>
-                <?php endif; ?>
+                <p>Nenhum produto disponível para venda no momento.</p>
             </div>
         <?php else: ?>
             <div class="grid-produtos">
