@@ -357,8 +357,8 @@ lumina_graca/
 ├── pedidos.php                   # Aba para o admin acompanhar as vendas da loja em tempo real
 │
 ├── atendimento/                  # Módulo de suporte e contato do cliente
-│   └── contato.php               # Formulário Fale Conosco
-│   └── politica_privacidade.php  # Política de Privacidade da página
+│   ├── contato.php               # Formulário Fale Conosco
+│   ├── politica_privacidade.php  # Política de Privacidade da página
 │   └── sobre_nos.php             # Sobre a Lumina & Graça
 │
 ├── css/                          # Arquivo de visual e cores
