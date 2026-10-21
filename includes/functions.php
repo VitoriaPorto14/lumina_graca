@@ -204,7 +204,7 @@ function criar_pedido($conexao, $usuario_id, $carrinho) {
     }
 
     // Insere na tabela 'pedidos'
-    $sql_pedido = "INSERT INTO pedidos (usuario_id, total, status) VALUES (:usuario_id, :total, 'concluido') RETURNING id";
+    $sql_pedido = "INSERT INTO pedidos (usuario_id, total) VALUES (:usuario_id, :total) RETURNING id";
     $stmt = $conexao->prepare($sql_pedido);
     $stmt->execute([
         ':usuario_id' => $usuario_id,
@@ -232,7 +232,7 @@ function criar_pedido($conexao, $usuario_id, $carrinho) {
 
 // Busca todos os pedidos cadastrados (para a área do Admin)
 function buscar_todos_pedidos($conexao) {
-    $sql = "SELECT p.id AS pedido_id, p.data_pedido, p.total, p.status, 
+    $sql = "SELECT p.id AS pedido_id, p.data_pedido, p.total, 
                    u.id AS usuario_id, u.nome AS cliente_nome, u.email AS cliente_email
             FROM pedidos p
             JOIN usuarios u ON p.usuario_id = u.id
