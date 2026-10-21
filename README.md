@@ -8,79 +8,85 @@ A plataforma permite realizar operações essenciais de e-commerce e administra�
 ## 1. Como Executar o Projeto
 
 Para rodar este projeto na sua máquina, será necessário ter instalado um ambiente de servidor local (**PHP**) e o banco de dados **PostgreSQL**.
-### Pré-Requisitos 
-* **PHP** (v7.4 ou superior) habilitado com a extensão `pdo_pgsql`.
-* **PostgreSQL** instalado e a rodar na porta `5432`padrão).
-* **Git** instalado na máquina.
+## Pré-requisitos
 
-### Passo 1: Clonar o Repositório
+- PHP instalado e configurado;
+- PostgreSQL instalado e em execução;
+- Navegador web.
 
-Abra o terminal e execute:
+### Passo a Passo
+
+#### Passo 01. Baixar o projeto em sua máquina
+
+- Copie a URL desse repositório
+```bash
+https://github.com/VitoriaPorto14/lumina_graca.git
 ```
-# Clone este repositório
-git clone https: https://github.com/VitoriaPorto14/Lumina-Graca.git
+- Abra o Terminal, Prompt de Comando ou Git Bash no seu computador e navegue até a pasta onde deseja salvar o projeto:
+```bash
+cd caminho/pasta_desejada
+```
 
-# Acesse a pasta do projeto
+- Execute o git clone:
+```bash
+https://github.com/VitoriaPorto14/lumina_graca.git
+```
+
+- Acesse a pasta:
+```bash
 cd lumina_graca
 ```
 
-### Passo 2: Configurar o Banco de Dados (Restore do Dump)
+#### Passo 2: Configurar o Banco de Dados
+Juntamente aos arquivos do projeto, você tem acesso ao dump do banco de dados `lumina.sql`, você usará ele neste momento. Siga as instruções abaixo:
 
-O projeto já conta com um ficheiro de dump.sql) com toda a estrutura das tabelase possivelmente dados iniciais) localizada na pasta /db/. Siga os passos abaixo para recriar o banco no seu PostgreSQL:
+- Abra o Terminal, Prompt de Comando ou PowerShell.
+- Conecte-se ao PostgreSQL de acordo com seu sistema operacional:
 
-* 1 - Abra o terminalPrompt de Comando ou PowerShell).
+    - Linux/macOS (Terminal):
+    ```bash
+    sudo -u postgres psql
+    ```
 
-* 2 - Conecte-se ao PostgreSQL usando o seu usuário principal (geralmente `postgres`): 
+    - Windows (Prompt/PowerShell):
+    ```bash
+    psql -U postgres
+    ```
+
+- Crie o banco de dados lumina:
+```bash
+DROP DATABASE IF EXISTS lumina;
+CREATE DATABASE lumina;
 ```
-psql -U postgres
+
+- Crie o usuário lumina com senha:
+```bash
+CREATE USER lumina WITH PASSWORD 'lumina123';
 ```
-* 3 - Crie um usuário para executar o projeto:
+
+- Altere proprietário do database:
+```bash
+ALTER DATABASE lumina OWNER TO lumina;
 ```
-CREATE USER nome_do_usuario WITH PASSWORD 'sua_senha';
+
+- Verifique se tudo ocorreu bem (banco de dados e usuário criados)
+    - Verificação do banco de dados:
+```bash
+\l
 ```
-* 4 - Se o banco de dados já existir de testes anteriores, apague-o e crie um novo para evitar conflitos de tabelas. Dentro do terminal interativo do `psql`, digite:
-```
-DROP DATABASE IF EXISTS [lumina];
-CREATE DATABASE [lumina];
+- Saia do usuário postgres:
+```bash
 \q
 ```
-* 5 - Navegue para a pasta `db` do projeto clonado e restaure o banco de dados executando o seguinte comando:
-```
-# Supondo que você esteja na raiz do projeto clonado
-cd db
-
-# Restaura o banco de dados
-psql -U postgres -d lumina -f lumina.sql
-
-# Volte para a raiz do projeto
-cd ..
+- Entre, seguindo o caminho abaixo:
+```bash
+cd /var/www/html/lumina_graca/
 ```
 
-### Passo 3: Configurar a Conexão no PHP
-
-* 1 - Na raiz do projeto, abra o ficheiro `connect.php`.
-
-* 2 - Altere as credenciais para corresponderem às do seu ambiente local PostgreSQL:
+- Estando na raiz do projeto `(pasta lumina_graca)`, restaure o banco de dados executando o seguinte comando:
+```bash
+psql -U lumina -d lumina -f lumina.sql
 ```
-$host = 'localhost';
-$port = '5432';
-$dbname = '[nome_bd]'; // O mesmo nome que criou no Passo 2
-$user = 'postgres'; // O seu usuário do PostgreSQL
-$password = 'sua_senha_aqui'; // A sua senha do PostgreSQL
-```
-
-### Passo 4: Acessar a Aplicação
-
-Com o banco de dados configurado, inicie o servidor embutido do PHP.
-Certifique-se de que o seu terminal está na raiz do projeto e execute:
-```
-php -S 0.0.0.0:3007
-```
-O servidor estará ativo! Agora, basta abrir o seu navegador de preferência e acessar:
-```
-http://localhost:3007
-```
----
 
 ## 2. Regras de Negócio (RN)
 
@@ -294,6 +300,96 @@ Os requisitos não funcionais definem os critérios de qualidade, desempenho, se
 | **US11** | Painel Admin | **Acompanhamento de Pedidos:** Listar todas as compras em `pedidos.php`. | `Essencial` | Colunas de ID, cliente, e-mail, data formatada e valor total faturado. |
 | **US12** | Painel Admin | **Central de Mensagens:** Ler mensagens do formulário de contato em `mensagens.php`. | `Importante` | Ordenação por data mais recente e botão `mailto:` com clique direto para resposta. |
 
-## 7. Prototipagem Canva - Média Fidelidade
+## 7. Prototipagem 
+
+### 7.1 Canva - Média Fidelidade
 
 [Prototipagem Canva](https://canva.link/6hg20e9foarpfzx)
+
+### 7.2 Briefing
+Abaixo está o briefing que foi utilizado para a criação deste projeto:
+
+#### Briefing Lumina & Graça
+##### 1. Visão Geral e Contexto
+- Sobre o Negócio: Qual é o ramo de atuação da empresa e qual problema ela resolve no mercado? Moda Cristã.
+- Motivação: Por que você decidiu criar este sistema agora? Meu objetivo principal é provar que a mulher cristã pode, sim, vestir-se de forma elegante, moderna, e alinhada aos seus valores, sem parecer ultrapassada ou brega. Queremos resgatar a beleza e a autoestima de cada cliente através de peças sofisticadas e de bom gosto.
+- Nome da Marca/Empresa: Lumina & Graça
+- Slogan / Proposta de Valor: Com Cristo, tudo se ilumina
+- História / Conceito da Marca: Moda modesta cristã
+- Principais Produtos: Roupas em geral.
+- Diferenciais Competitivos: Produção própria e tecidos nobres.
+
+2. Usuários e Acessos
+- Público-Alvo: Público feminino.
+- Níveis de Permissão: Usuários do tipo cliente e do tipo admin.
+
+3. Requisitos Funcionais do E-Commerce
+
+A. Loja Virtual (Front-Office)
+- Página Inicial (Home):
+Apresentação da marca
+Vitrine de produtos  "Mais Vendidos"
+Rodapé com contato, navegação e mini descrição
+
+- Página do Produto:
+Vitrine de produtos, mostrando todos
+
+B. Área do Cliente e Autenticação
+- Registo/Login com E-mail e Palavra-passe
+
+3. Requisitos Técnicos & Gestão (Back-Office)
+A. Painel Administrativo (CRUD / Admin)
+Gestão de Produtos: Adicionar, editar, eliminar e listar produtos com upload de imagens
+Gestão de Pedidos: Pode ver os pedidos feitos
+Gestão de Mensagens: Pode ver mensagens enviadas pelos usuários
+
+## 8 Organização de diretórios e arquivos
+
+A estrutura abaixo apresenta a organização das pastas e arquivos da Lumina & Graça, explicando de forma simples a função de cada item na aplicação:
+```text
+lumina_graca/
+├── conta.php                     # Mostra as informações da conta do usuário
+├── estoque.php                   # Mostra o estoque da loja
+├── index.php                     # Página inicial do sistema
+├── login.php                     # Tela para login
+├── logout.php                    # Código PHP para o usuário sair
+├── mensagens.php                 # Aba para visualizar mensagens enviadas por clientes ao admin
+├── pedidos.php                   # Aba para o admin acompanhar as vendas da loja em tempo real
+│
+├── atendimento/                  # Módulo de suporte e contato do cliente
+│   ├── contato.php               # Formulário Fale Conosco
+│   ├── politica_privacidade.php  # Política de Privacidade da página
+│   └── sobre_nos.php             # Sobre a Lumina & Graça
+│
+├── css/                          # Arquivo de visual e cores
+│   └── style.css                 # Estilos da tela
+│
+├── database/                   # Conexão com o banco
+│   └── connect.php             # Script que conecta o PHP ao PostgreSQL
+│
+├── images/                     # Imagens fixas do site (logos, ícones e fundos)
+│
+├── includes/                   # Partes repetidas das telas (cabeçalho, rodapé e funções)
+│   ├── header.php              # Cabeçalho / Menu do topo
+│   ├── footer.php              # Rodapé
+│   └── functions.php           # Funções gerais do sistema utilizadas nas páginas
+│
+├── login/                      # Arquivos sobre o usuário no sistema
+│   ├── cadastro.php            # Criar conta
+│   ├── login.php               # Entrar no site
+│   ├── logout.php              # Sair da conta
+│   ├── atualizar_perfil.php    # Atualizar informações do perfil
+│   └── verifica_user.php       # Arquivo que garante que apenas usuários logados tenham acesso às páginas principais
+│
+├── pages/                      # As páginas principais do sistema
+│   ├── inicio.php              # Painel principal do usuário
+│   ├── viagens.php             # Lista de viagens salvas
+│   ├── adicionar.php           # Formulário para cadastrar viagem
+│   ├── atualizar.php           # Formulário para editar viagem
+│   ├── detalhes_viagem.php     # Tela que mostra uma viagem completa
+│   ├── pesquisar.php           # Campo de busca de viagens
+│   ├── excluir.php             # Apaga a viagem
+│   └── perfil.php              # Exibe as informações do usuário
+│
+└── uploads/                    # Pasta onde ficam salvas as fotos que os usuários enviam
+```
