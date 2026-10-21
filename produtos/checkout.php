@@ -210,11 +210,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <span class="radio-custom"></span>
                                 <span class="radio-label">Cartão de Crédito</span>
                             </label>
-                            <label class="radio-card">
-                                <input type="radio" name="pagamento" value="Dinheiro">
-                                <span class="radio-custom"></span>
-                                <span class="radio-label">Dinheiro na Entrega</span>
-                            </label>
                         </div>
                     </div>
 
