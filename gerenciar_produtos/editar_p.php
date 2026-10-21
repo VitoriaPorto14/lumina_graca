@@ -112,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <div class="form-acoes">
-                    <a href="/lumina_graca/produto.php" class="btn-cancelar">CANCELAR</a>
+                    <a href="../estoque.php" class="btn-cancelar">CANCELAR</a>
                     <button type="submit" class="btn-adicionar">SALVAR ALTERAÇÕES</button>
                 </div>
         </form>
