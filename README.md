@@ -415,7 +415,7 @@ css/                         # Arquivos de estilização e visual do site
 | **ID do Produto** | id | INT | Identificador único do produto | PK | NOT NULL | Número inteiro | -- | -- |
 | **Nome do Produto** | nome | VARCHAR(100) | Nome comercial da peça ou produto | -- | NOT NULL | Caractere | -- | -- |
 | **Descrição do Produto** | descricao | TEXT | Detalhes, tecido e especificações do produto | -- | NULL | Texto longo | -- | -- |
-| **Preço do Produto** | preco | NUMERIC(10,2) | Valor unitário de venda do produto | -- | NOT NULL | Decimal | R$ #.##0,00 | -- |
+| **Preço do Produto** | preco | NUMERIC(10,2) | Valor unitário de venda do produto | -- | NOT NULL | Decimal | R$ 0,00 | -- |
 | **Estoque** | estoque | INT | Quantidade disponível em estoque | -- | NOT NULL | Número inteiro | -- | -- |
 | **URL da Imagem** | imagem_url | VARCHAR(255) | Nome do arquivo de imagem salvo no servidor | -- | NULL | Caractere | -- | -- |
 
@@ -428,7 +428,7 @@ css/                         # Arquivos de estilização e visual do site
 | **ID do Pedido** | id | INT | Identificador único do pedido | PK | NOT NULL | Número inteiro | -- | -- |
 | **ID do Usuário** | usuario_id | INT | Identificador do cliente que realizou a compra | FK | NOT NULL | Número inteiro | -- | usuarios.id |
 | **Data do Pedido** | data_pedido | TIMESTAMP | Data e hora exata em que o pedido foi efetuado | -- | NOT NULL | Data e Hora | DD/MM/AAAA HH:MM:SS | -- |
-| **Total do Pedido** | total | NUMERIC(10,2) | Valor total acumulado da compra | -- | NOT NULL | Decimal | R$ #.##0,00 | -- |
+| **Total do Pedido** | total | NUMERIC(10,2) | Valor total acumulado da compra | -- | NOT NULL | Decimal | R$ 0,00 | -- |
 
 ---
 
@@ -440,7 +440,7 @@ css/                         # Arquivos de estilização e visual do site
 | **ID do Pedido** | pedido_id | INT | Identificador do pedido ao qual o item pertence | FK | NOT NULL | Número inteiro | -- | pedidos.id |
 | **ID do Produto** | produto_id | INT | Identificador do produto adquirido | FK | NOT NULL | Número inteiro | -- | produtos.id |
 | **Quantidade** | quantidade | INT | Quantidade comprada do produto | -- | NOT NULL | Número inteiro | -- | -- |
-| **Preço Unitário** | preco_unitario | NUMERIC(10,2) | Preço unitário do produto no momento da compra | -- | NOT NULL | Decimal | R$ #.##0,00 | produtos.preco |
+| **Preço Unitário** | preco_unitario | NUMERIC(10,2) | Preço unitário do produto no momento da compra | -- | NOT NULL | Decimal | R$ 0,00 | produtos.preco |
 
 ---
 
