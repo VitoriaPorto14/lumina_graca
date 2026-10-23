@@ -38,7 +38,7 @@ git clone <https://github.com/VitoriaPorto14/lumina_graca.git>
 cd lumina_graca
 ```
 
-#### Passo 2: Configurar o Banco de Dados
+#### Passo 02. Configurar o Banco de Dados
 Juntamente aos arquivos do projeto, você tem acesso ao dump do banco de dados `lumina.sql`, você usará ele neste momento. Siga as instruções abaixo:
 
 - Abra o Terminal, Prompt de Comando ou PowerShell.
@@ -88,8 +88,8 @@ cd /var/www/html/lumina_graca/
 ```bash
 psql -U lumina -d lumina -f lumina.sql
 ```
-#### 3 - Na pasta database, abra o arquivo connect.php.
-##### 3.1 - Altere as credenciais para corresponderem às do seu ambiente local PostgreSQL:
+#### Passo 03. Na pasta database, abra o arquivo connect.php.
+##### 3.1 Altere as credenciais para corresponderem às do seu ambiente local PostgreSQL:
 
 ```bash
 $host = "localhost";
