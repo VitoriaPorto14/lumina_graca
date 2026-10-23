@@ -314,7 +314,11 @@ Os requisitos não funcionais definem os critérios de qualidade, desempenho, se
 
 ## 7. Prototipagem 
 
-### 7.2 Briefing do Projeto
+#### 7.1 Protótipo de Média Fidelidade:
+##### Protótipo 1: https://excalidraw.com/#json=vE53a5rA4ZSQ6-tTsVis0,8o5Kx306R7kxNKgZuP_baQ
+##### Protótipo 2: https://canva.link/6hg20e9foarpfzx
+
+#### 7.2 Briefing do Projeto
 
 Abaixo encontra-se o **briefing conceitual e funcional** utilizado como diretriz fundamental para o planejamento e desenvolvimento deste sistema.
 
