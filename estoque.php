@@ -1,17 +1,14 @@
 <?php
-// Inicia ou recupera a sessão do usuário no navegador
 session_start();
 
-// Proteção da rota: Apenas administradores podem acessar a gestão de estoque
+// Proteção da rota para administrador
 if (!isset($_SESSION['usuario_id']) || ($_SESSION['usuario_tipo'] ?? '') !== 'admin') {
-    header('Location: /lumina_graca/login.php');
-    exit;
+    header("Location: /lumina_graca/login.php");
+    exit();
 }
 
-// Importa o arquivo com as funções do sistema e a conexão com o banco de dados
 require_once __DIR__ . '/includes/functions.php';
 
-// Busca a lista de todos os produtos cadastrados no banco usando a função do functions.php
 $produtos = listar_p($conexao);
 ?>
 
@@ -27,7 +24,6 @@ $produtos = listar_p($conexao);
 </head>
 
 <body>
-    <!-- Inclui o cabeçalho/menu topo reutilizável da aplicação -->
     <?php include __DIR__ . '/includes/header.php'; ?>
 
     <main class="container">
@@ -37,11 +33,9 @@ $produtos = listar_p($conexao);
                 <p class="subtitulo-pagina">Controle e listagem de produtos cadastrados</p>
             </div>
 
-            <!-- Botão + Novo Produto -->
             <a href="/lumina_graca/gerenciar_produtos/adicionar_p.php" class="btn-novo-produto">+ Novo Produto</a>
         </div>
 
-        <!-- Verifica se a lista de produtos retornada do banco está vazia -->
         <?php if (empty($produtos)): ?>
             <div class="card-vazio">
                 <p>Nenhum produto cadastrado no momento.</p>
@@ -59,43 +53,33 @@ $produtos = listar_p($conexao);
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Percorre o array de produtos vindo do banco de dados linha por linha -->
                         <?php foreach ($produtos as $p): ?>
                             <tr>
                                 <td>
                                     <div class="produto-info-celula">
-                                        <!-- Verifica se o produto tem imagem cadastrada -->
                                         <?php if (!empty($p['imagem_url'])): ?>
-                                            <!-- Exibe a imagem usando o caminho absoluto correto em relação ao servidor web -->
+                                            <!-- Caminho absoluto no navegador /lumina_graca/uploads/ -->
                                             <img src="/lumina_graca/uploads/<?php echo htmlspecialchars($p['imagem_url']); ?>" alt="<?php echo htmlspecialchars($p['nome']); ?>" class="thumb-produto">
                                         <?php else: ?>
-                                            <!-- Exibe caixa padrão caso não haja imagem -->
                                             <div class="thumb-sem-img">[IMG]</div>
                                         <?php endif; ?>
 
                                         <div class="detalhes-item">
-                                            <!-- Exibe o nome do produto -->
                                             <strong><?php echo htmlspecialchars($p['nome']); ?></strong>
-                                            <!-- Exibe o ID único do produto -->
                                             <small>ID: #<?php echo $p['id']; ?></small>
                                         </div>
                                     </div>
                                 </td>
-                                <!-- Exibe a descrição do produto -->
                                 <td class="coluna-descricao"><?php echo htmlspecialchars($p['descricao'] ?? ''); ?></td>
-                                <!-- Formata o preço no padrão de moeda brasileira (R$ 0,00) -->
                                 <td class="preco-tabela">R$ <?php echo number_format($p['preco'], 2, ',', '.'); ?></td>
                                 <td>
-                                    <!-- Aplica classe CSS dinâmica conforme a quantidade em estoque (>0 verde, <=0 vermelho) -->
                                     <span class="badge-estoque <?php echo ($p['estoque'] > 0) ? 'em-estoque' : 'sem-estoque'; ?>">
                                         <?php echo $p['estoque']; ?> un
                                     </span>
                                 </td>
                                 <td>
                                     <div class="acoes-celula">
-                                        <!-- Link para editar o produto enviando seu ID via GET -->
                                         <a href="/lumina_graca/gerenciar_produtos/editar_p.php?id=<?php echo $p['id']; ?>" class="btn-acao btn-editar" title="Editar Produto">✏️</a>
-                                        <!-- Link para excluir o produto enviando seu ID via GET com confirmação em JS -->
                                         <a href="/lumina_graca/gerenciar_produtos/excluir_p.php?id=<?php echo $p['id']; ?>" onclick="return confirm('Deseja excluir este produto?')" class="btn-acao btn-excluir" title="Excluir Produto">🗑️</a>
                                     </div>
                                 </td>
@@ -111,7 +95,6 @@ $produtos = listar_p($conexao);
         </div>
     </main>
 
-    <!-- Inclui o rodapé reutilizável na parte inferior da página -->
     <?php include __DIR__ . '/includes/footer.php'; ?>
 </body>
 

@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+// Proteção da rota para administrador
 if (!isset($_SESSION['usuario_id']) || ($_SESSION['usuario_tipo'] ?? '') !== 'admin') {
     echo "Acesso negado. Esta página é restrita aos administradores.";
     echo "<br><a href='../index.php'>Voltar para o início</a>";
@@ -17,25 +18,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $imagem_url = '';
 
     if (isset($_FILES['imagem_url']) && $_FILES['imagem_url']['error'] === UPLOAD_ERR_OK) {
-        
-        // Como o adicionar_p.php está em /gerenciar_produtos/, subimos um nível (../) para chegar a /uploads/
-        $pasta_uploads = realpath(__DIR__ . '/..') . '/uploads/';
+
+        // Caminho absoluto físico no servidor (subindo 1 nível a partir de /gerenciar_produtos)
+        $pasta_uploads = dirname(__DIR__) . '/uploads/';
 
         // Cria a pasta uploads na raiz do projeto se ela não existir
         if (!is_dir($pasta_uploads)) {
             mkdir($pasta_uploads, 0777, true);
         }
 
-        // Gera o nome único do ficheiro
+        // Nome único do arquivo
         $nome_original = basename($_FILES['imagem_url']['name']);
         $imagem_url    = time() . '_' . $nome_original;
-        
-        // Move o ficheiro para /lumina_graca/uploads/
+
+        // Move o arquivo temporário para a pasta uploads
         $caminho_final = $pasta_uploads . $imagem_url;
         move_uploaded_file($_FILES['imagem_url']['tmp_name'], $caminho_final);
     }
 
-    // Salva no PostgreSQL (guarda apenas o nome da imagem, ex: "1729690000_foto.jpg")
+    // Grava no PostgreSQL
     adicionar_p($conexao, $nome, $descricao, $preco, $estoque, $imagem_url);
 
     header("Location: /lumina_graca/estoque.php");
@@ -55,7 +56,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
-    <!-- Inclui o cabeçalho/menu topo reutilizável da aplicação -->
     <?php include __DIR__ . '/../includes/header.php'; ?>
 
     <main class="container">
@@ -108,17 +108,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </main>
 
     <script>
-    function atualizarNomeArquivo(input) {
-        const textoUpload = document.getElementById('texto-upload');
-        if (input.files && input.files[0]) {
-            textoUpload.textContent = 'SELECIONADO: ' + input.files[0].name;
-        } else {
-            textoUpload.textContent = 'Clique para selecionar a foto do produto';
+        function atualizarNomeArquivo(input) {
+            const textoUpload = document.getElementById('texto-upload');
+            if (input.files && input.files[0]) {
+                textoUpload.textContent = 'SELECIONADO: ' + input.files[0].name;
+            } else {
+                textoUpload.textContent = 'Clique para selecionar a foto do produto';
+            }
         }
-    }
     </script>
 
-    <!-- Inclui o rodapé reutilizável na parte inferior da página -->
     <?php include __DIR__ . '/../includes/footer.php'; ?>
 </body>
 
