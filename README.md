@@ -100,7 +100,7 @@ $pass = "lumina123";
 
 ```
 
-##### Correção de Permissões para Upload de Imagens no Linux
+#### Correção de Permissões para Upload de Imagens no Linux
 
 Se as imagens cadastradas não estiverem salvando automaticamente na pasta `uploads/` no servidor, execute os comandos abaixo no terminal do servidor Apache/Nginx para conceder as permissões necessárias:
 
