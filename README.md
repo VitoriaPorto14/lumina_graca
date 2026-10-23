@@ -100,6 +100,16 @@ $pass = "lumina123";
 
 ```
 
+#### Correção de Permissões para Upload de Imagens no Linux
+
+Se as imagens cadastradas não estiverem salvando automaticamente na pasta `uploads/` no servidor, execute os comandos abaixo no terminal do servidor Apache/Nginx para conceder as permissões necessárias:
+
+```bash
+mkdir -p /var/www/html/lumina_graca/uploads
+sudo chown -R www-data:www-data /var/www/html/lumina_graca/uploads
+sudo chmod -R 777 /var/www/html/lumina_graca/uploads
+```
+
 ## 2. Regras de Negócio (RN)
 
 | Categoria | Código | Regra de Negócio | Descrição |
