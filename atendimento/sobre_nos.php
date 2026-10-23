@@ -28,14 +28,14 @@
                         A Lumina & Graça nasceu em 2023 a partir de uma necessidade real vivenciada por nossa fundadora, uma jovem apaixonada por moda. Ao tentar encontrar roupas para seu próprio dia a dia, ela percebeu uma grande limitação no mercado: as opções de moda dita "modesta" eram quase sempre repetitivas, sem graça e com pouca variedade.
                     </p>
                     <p>
-                        Inconformada com a ideia de que se vestir com modéstia significava abrir mão do estilo, surgiu o desejo de transformar essa realidade e oferecer peças pensadas especialmente para o público feminino cristão.
+                        Inconformada com a ideia de que se vestir com modéstia significava abrir mão do estilo, surgiu o desejo de transformar essa realidade e oferecer peças pensadas especialmente para o público feminino cristão e para os pequenos através da nossa linha infantil.
                     </p>
                 </div>
 
                 <div class="sobre-secao">
                     <h3>Nosso Propósito</h3>
                     <p>
-                        Nosso objetivo principal é provar que a mulher cristã pode, sim, vestir-se de forma elegante, moderna e alinhada aos seus valores, sem parecer ultrapassada ou brega. Queremos resgatar a beleza e a autoestima de cada cliente através de peças sofisticadas e de bom gosto.
+                        Nosso objetivo principal é provar que é possível vestir-se de forma elegante, moderna e alinhada aos valores cristãos, sem parecer ultrapassada ou brega. Queremos resgatar a beleza e a autoestima de cada cliente e trazer encanto para a moda infantil através de peças sofisticadas e de bom gosto.
                     </p>
                 </div>
 
@@ -45,6 +45,10 @@
                         <li>
                             <strong>Moda Modesta e Elegante:</strong>
                             <span>Roupas cuidadosamente selecionadas para unir recato, sofisticação e caimento perfeito.</span>
+                        </li>
+                        <li>
+                            <strong>Moda Infantil:</strong>
+                            <span>Peças encantadoras, confortáveis e elegantes preparadas com todo o carinho para as crianças.</span>
                         </li>
                         <li>
                             <strong>Estilo Único:</strong>
