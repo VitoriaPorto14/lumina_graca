@@ -16,26 +16,26 @@ require_once __DIR__ . '/../includes/functions.php';
 
 // Verifica se o formulário foi enviado através do método POST (ao clicar em 'ADICIONAR PRODUTO')
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Recebe e guarda em variáveis os dados digitados no formulário
-    $nome = $_POST['nome'];
-    $preco = $_POST['preco'];
-    $estoque = $_POST['estoque'];
-    $descricao = $_POST['descricao'];
+    // Recebe, limpa e guarda em variáveis os dados digitados no formulário
+    $nome      = strip_tags(trim($_POST['nome'] ?? ''));
+    $preco     = (float)($_POST['preco'] ?? 0);
+    $estoque   = (int)($_POST['estoque'] ?? 0);
+    $descricao = strip_tags(trim($_POST['descricao'] ?? ''));
     $imagem_url = '';
 
     // Verifica se uma imagem foi enviada no upload
     if (!empty($_FILES['imagem_url']['name'])) {
-        // Gera um nome único para a imagem usando a data/hora atual (timestamp) + o nome do arquivo
-        $imagem_url = time() . '_' . $_FILES['imagem_url']['name'];
+        // Gera um nome único para a imagem usando timestamp + nome do arquivo
+        $imagem_url = time() . '_' . basename($_FILES['imagem_url']['name']);
         // Move a imagem da pasta temporária para a pasta 'uploads' do projeto
-        move_uploaded_file($_FILES['imagem_url']['tmp_name'], '../uploads/' . $imagem_url);
+        move_uploaded_file($_FILES['imagem_url']['tmp_name'], __DIR__ . '/../uploads/' . $imagem_url);
     }
 
     // Executa a função que salva o novo produto no banco de dados PostgreSQL
     adicionar_p($conexao, $nome, $descricao, $preco, $estoque, $imagem_url);
 
-    // Redireciona o administrador de volta para a lista de produtos
-    header("Location: /lumina_graca/produto.php");
+    // Redireciona o administrador de volta para a tela de estoque (onde os produtos são gerenciados)
+    header("Location: /lumina_graca/estoque.php");
     // Encerra a execução do script
     exit();
 }
