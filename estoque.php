@@ -1,4 +1,13 @@
 <?php
+// Inicia ou recupera a sessão do usuário no navegador
+session_start();
+
+// Proteção da rota: Apenas administradores podem acessar a gestão de estoque
+if (!isset($_SESSION['usuario_id']) || ($_SESSION['usuario_tipo'] ?? '') !== 'admin') {
+    header('Location: /lumina_graca/login.php');
+    exit;
+}
+
 // Importa o arquivo com as funções do sistema e a conexão com o banco de dados
 require_once __DIR__ . '/includes/functions.php';
 
@@ -57,8 +66,8 @@ $produtos = listar_p($conexao);
                                     <div class="produto-info-celula">
                                         <!-- Verifica se o produto tem imagem cadastrada -->
                                         <?php if (!empty($p['imagem_url'])): ?>
-                                            <!-- Exibe a miniatura da imagem tratando caracteres especiais contra XSS -->
-                                            <img src="uploads/<?php echo htmlspecialchars($p['imagem_url']); ?>" alt="Imagem" class="thumb-produto">
+                                            <!-- Exibe a imagem usando o caminho absoluto correto em relação ao servidor web -->
+                                            <img src="/lumina_graca/uploads/<?php echo htmlspecialchars($p['imagem_url']); ?>" alt="<?php echo htmlspecialchars($p['nome']); ?>" class="thumb-produto">
                                         <?php else: ?>
                                             <!-- Exibe caixa padrão caso não haja imagem -->
                                             <div class="thumb-sem-img">[IMG]</div>
@@ -73,11 +82,11 @@ $produtos = listar_p($conexao);
                                     </div>
                                 </td>
                                 <!-- Exibe a descrição do produto -->
-                                <td class="coluna-descricao"><?php echo htmlspecialchars($p['descricao']); ?></td>
+                                <td class="coluna-descricao"><?php echo htmlspecialchars($p['descricao'] ?? ''); ?></td>
                                 <!-- Formata o preço no padrão de moeda brasileira (R$ 0,00) -->
                                 <td class="preco-tabela">R$ <?php echo number_format($p['preco'], 2, ',', '.'); ?></td>
                                 <td>
-                                    <!-- Aplica classe CSS dinamica conforme a quantidade em estoque (>0 verde, <=0 vermelho) -->
+                                    <!-- Aplica classe CSS dinâmica conforme a quantidade em estoque (>0 verde, <=0 vermelho) -->
                                     <span class="badge-estoque <?php echo ($p['estoque'] > 0) ? 'em-estoque' : 'sem-estoque'; ?>">
                                         <?php echo $p['estoque']; ?> un
                                     </span>

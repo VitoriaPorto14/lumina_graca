@@ -1,42 +1,44 @@
 <?php
-// Inicia ou recupera a sessão do usuário no navegador
 session_start();
 
-// Verifica se o usuário NÃO está logado ou se o tipo de conta NÃO é 'admin'
 if (!isset($_SESSION['usuario_id']) || ($_SESSION['usuario_tipo'] ?? '') !== 'admin') {
-    // Exibe mensagem de acesso negado para usuários não autorizados
     echo "Acesso negado. Esta página é restrita aos administradores.";
     echo "<br><a href='../index.php'>Voltar para o início</a>";
-    // Interrompe o carregamento da página imediatamente
     exit;
 }
 
-// Importa o arquivo com as funções do sistema e a conexão com o banco de dados
 require_once __DIR__ . '/../includes/functions.php';
 
-// Verifica se o formulário foi enviado através do método POST (ao clicar em 'ADICIONAR PRODUTO')
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Recebe, limpa e guarda em variáveis os dados digitados no formulário
     $nome      = strip_tags(trim($_POST['nome'] ?? ''));
     $preco     = (float)($_POST['preco'] ?? 0);
     $estoque   = (int)($_POST['estoque'] ?? 0);
     $descricao = strip_tags(trim($_POST['descricao'] ?? ''));
     $imagem_url = '';
 
-    // Verifica se uma imagem foi enviada no upload
-    if (!empty($_FILES['imagem_url']['name'])) {
-        // Gera um nome único para a imagem usando timestamp + nome do arquivo
-        $imagem_url = time() . '_' . basename($_FILES['imagem_url']['name']);
-        // Move a imagem da pasta temporária para a pasta 'uploads' do projeto
-        move_uploaded_file($_FILES['imagem_url']['tmp_name'], __DIR__ . '/../uploads/' . $imagem_url);
+    if (isset($_FILES['imagem_url']) && $_FILES['imagem_url']['error'] === UPLOAD_ERR_OK) {
+        
+        // Como o adicionar_p.php está em /gerenciar_produtos/, subimos um nível (../) para chegar a /uploads/
+        $pasta_uploads = realpath(__DIR__ . '/..') . '/uploads/';
+
+        // Cria a pasta uploads na raiz do projeto se ela não existir
+        if (!is_dir($pasta_uploads)) {
+            mkdir($pasta_uploads, 0777, true);
+        }
+
+        // Gera o nome único do ficheiro
+        $nome_original = basename($_FILES['imagem_url']['name']);
+        $imagem_url    = time() . '_' . $nome_original;
+        
+        // Move o ficheiro para /lumina_graca/uploads/
+        $caminho_final = $pasta_uploads . $imagem_url;
+        move_uploaded_file($_FILES['imagem_url']['tmp_name'], $caminho_final);
     }
 
-    // Executa a função que salva o novo produto no banco de dados PostgreSQL
+    // Salva no PostgreSQL (guarda apenas o nome da imagem, ex: "1729690000_foto.jpg")
     adicionar_p($conexao, $nome, $descricao, $preco, $estoque, $imagem_url);
 
-    // Redireciona o administrador de volta para a tela de estoque (onde os produtos são gerenciados)
     header("Location: /lumina_graca/estoque.php");
-    // Encerra a execução do script
     exit();
 }
 ?>
