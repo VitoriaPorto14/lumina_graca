@@ -88,7 +88,8 @@ cd /var/www/html/lumina_graca/
 ```bash
 psql -U lumina -d lumina -f lumina.sql
 ```
-#### Passo 03. Na pasta database, abra o arquivo connect.php.
+#### Passo 03. Na pasta database, abra o arquivo connect.php
+
 ##### 3.1 Altere as credenciais para corresponderem às do seu ambiente local PostgreSQL:
 
 ```bash
