@@ -38,7 +38,7 @@ git clone <https://github.com/VitoriaPorto14/lumina_graca.git>
 cd lumina_graca
 ```
 
-#### Passo 2: Configurar o Banco de Dados
+#### Passo 02. Configurar o Banco de Dados
 Juntamente aos arquivos do projeto, você tem acesso ao dump do banco de dados `lumina.sql`, você usará ele neste momento. Siga as instruções abaixo:
 
 - Abra o Terminal, Prompt de Comando ou PowerShell.
@@ -87,6 +87,17 @@ cd /var/www/html/lumina_graca/
 - Estando na raiz do projeto `(pasta lumina_graca)`, restaure o banco de dados executando o seguinte comando:
 ```bash
 psql -U lumina -d lumina -f lumina.sql
+```
+#### Passo 03. Na pasta database, abra o arquivo connect.php
+
+##### 3.1 Altere as credenciais para corresponderem às do seu ambiente local PostgreSQL:
+
+```bash
+$host = "localhost";
+$dbname = "lumina";
+$user = "lumina";
+$pass = "lumina123";
+
 ```
 
 ## 2. Regras de Negócio (RN)
@@ -303,45 +314,61 @@ Os requisitos não funcionais definem os critérios de qualidade, desempenho, se
 
 ## 7. Prototipagem 
 
-### 7.1 Canva - Média Fidelidade
+### 7.2 Briefing do Projeto
 
-[Prototipagem Canva](https://canva.link/6hg20e9foarpfzx)
+Abaixo encontra-se o **briefing conceitual e funcional** utilizado como diretriz fundamental para o planejamento e desenvolvimento deste sistema.
 
-### 7.2 Briefing
-Abaixo está o briefing que foi utilizado para a criação deste projeto:
+---
 
-#### Briefing Lumina & Graça
-##### 1. Visão Geral e Contexto
-- Sobre o Negócio: Qual é o ramo de atuação da empresa e qual problema ela resolve no mercado? Moda Cristã.
-- Motivação: Por que você decidiu criar este sistema agora? Meu objetivo principal é provar que a mulher cristã pode, sim, vestir-se de forma elegante, moderna, e alinhada aos seus valores, sem parecer ultrapassada ou brega. Queremos resgatar a beleza e a autoestima de cada cliente através de peças sofisticadas e de bom gosto.
-- Nome da Marca/Empresa: Lumina & Graça
-- Slogan / Proposta de Valor: Com Cristo, tudo se ilumina
-- História / Conceito da Marca: Moda modesta cristã.
-- Diferenciais Competitivos: Produção própria e tecidos nobres.
+#### 📄 Briefing Executivo: Lumina & Graça
 
-2. Usuários e Acessos
-- Público-Alvo: O público-alvo abrange desde o público infantil até o adulto, atendendo meninas, jovens e mulheres que buscam peças de moda modesta e elegante.
-- Níveis de Permissão: Usuários do tipo cliente e do tipo admin.
+##### 1. Visão Geral e Identidade do Negócio
 
-3. Requisitos Funcionais do E-Commerce
+> **"Com Cristo, tudo se ilumina."**  
+> *Proposta de Valor e Slogan da Marca*
 
-A. Loja Virtual (Front-Office)
-- Página Inicial (Home):
-Apresentação da marca
-Vitrine de produtos  "Mais Vendidos"
-Rodapé com contato, navegação e mini descrição
+* **Nome do Negócio:** Lumina & Graça
+* **Ramo de Atuação:** Moda Cristã & Feminina (Moda Modesta)
+* **Motivação do Projeto:** Provar que a mulher cristã pode vestir-se de forma elegante, moderna e alinhada aos seus valores espirituais, sem abrir mão do bom gosto e do estilo contemporâneo. O objetivo é resgatar a beleza e a autoestima feminina por meio da moda.
+* **Conceito da Marca:** Vestuário focado em sofisticação, modéstia e elegância cristã.
+* **Diferenciais Competitivos:** 
+  * Produção própria e autoral;
+  * Utilização de tecidos nobres e acabamento de alta qualidade.
 
-- Página do Produto:
-Vitrine de produtos, mostrando todos
+---
 
-B. Área do Cliente e Autenticação
-- Registo/Login com E-mail e Palavra-passe
+##### 2. Público-Alvo e Níveis de Acesso
 
-3. Requisitos Técnicos & Gestão (Back-Office)
-A. Painel Administrativo (CRUD / Admin)
-Gestão de Produtos: Adicionar, editar, eliminar e listar produtos com upload de imagens
-Gestão de Pedidos: Pode ver os pedidos feitos
-Gestão de Mensagens: Pode ver mensagens enviadas pelos usuários
+* **Público-Alvo:** Abrange desde o público infantil até o adulto — atendendo meninas, jovens e mulheres que buscam peças de moda modesta e sofisticada.
+* **Níveis de Permissão do Sistema:**
+  * **Cliente:** Acesso à navegação da vitrine, autenticação de conta e realização de pedidos.
+  * **Administrador (Admin):** Acesso restrito para gestão de inventário, monitoramento de pedidos e mensagens.
+
+---
+
+##### 3. Requisitos Funcionais (Front-Office & Área do Cliente)
+
+| Módulo | Funcionalidade | Descrição |
+| :--- | :--- | :--- |
+| **Página Inicial (Home)** | Apresentação | Banner institucional e história da marca. |
+| | Vitrine de Destaques | Exibição das peças *"Mais Vendidos"*. |
+| | Rodapé Institucional | Navegação rápida, contatos diretos e resumo da marca. |
+| **Vitrine de Produtos** | Catálogo Geral | Exibição completa de todas as peças disponíveis na loja. |
+| **Área de Autenticação** | Login & Cadastro | Acesso seguro do cliente via e-mail e senha cadastrada. |
+
+---
+
+##### 4. Requisitos Técnicos e Gestão (Back-Office / Painel Admin)
+
+* **Gestão de Produtos (CRUD Completo):**
+  * Cadastro de novas peças;
+  * Edição de dados e preços;
+  * Exclusão e listagem de estoque;
+  * Upload e armazenamento de imagens das peças.
+* **Gestão de Pedidos:**
+  * Painel de monitoramento e visualização das compras efetuadas pelos clientes em tempo real.
+* **Gestão de Mensagens (Atendimento):**
+  * Central de leitura e gerenciamento das dúvidas/mensagens enviadas através do formulário *"Fale Conosco"*.
 
 ## 8 Organização de diretórios e arquivos
 
