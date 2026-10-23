@@ -92,7 +92,7 @@ psql -U lumina -d lumina -f lumina.sql
 ##### 3.1 - Altere as credenciais para corresponderem às do seu ambiente local PostgreSQL:
 
 ```bash
-$host = "localhost"; ou $host = "seu_ip";
+$host = "localhost";
 $dbname = "lumina";
 $user = "lumina";
 $pass = "lumina123";
