@@ -39,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Grava no PostgreSQL
     adicionar_p($conexao, $nome, $descricao, $preco, $estoque, $imagem_url);
 
+    
     header("Location: /lumina_graca/estoque.php");
     exit();
 }
